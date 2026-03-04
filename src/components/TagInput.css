@@ -1,0 +1,88 @@
+.tag-input {
+  margin: 16px 0;
+}
+
+.tag-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  min-height: 42px;
+  align-items: center;
+}
+
+.tag-container:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 16px;
+  font-size: 13px;
+  color: #1976d2;
+}
+
+.tag-remove {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #1976d2;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.tag-remove:hover {
+  color: #0d47a1;
+}
+
+.tag-remove:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.tag-input-field {
+  flex: 1;
+  min-width: 120px;
+  padding: 4px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.tag-hint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .tag-input-field {
+    min-width: 100px;
+  }
+}

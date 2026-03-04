@@ -1,0 +1,222 @@
+.entry-list {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.entry-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.entry-list-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.create-entry-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.create-entry-button:hover {
+  background-color: #0056b3;
+}
+
+.create-entry-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.empty-state p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.entries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.entry-card:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.entry-card:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.entry-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.entry-header {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-title {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #212529;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mood-indicator {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.entry-date {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.delete-button:hover {
+  background-color: #f8f9fa;
+}
+
+.delete-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.delete-confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.delete-confirmation p {
+  margin: 0;
+  font-size: 14px;
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.confirm-delete-button,
+.cancel-delete-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirm-delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.confirm-delete-button:hover {
+  background-color: #c82333;
+}
+
+.confirm-delete-button:focus {
+  outline: 2px solid #dc3545;
+  outline-offset: 2px;
+}
+
+.cancel-delete-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-delete-button:hover {
+  background-color: #5a6268;
+}
+
+.cancel-delete-button:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 2px;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .entry-list {
+    padding: 16px;
+  }
+
+  .entry-list-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .entry-list-header h2 {
+    font-size: 20px;
+  }
+
+  .create-entry-button {
+    width: 100%;
+  }
+
+  .entry-card {
+    padding: 12px;
+  }
+
+  .entry-title {
+    font-size: 16px;
+  }
+
+  .entry-date {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,104 @@
+.rich-text-editor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+  flex-wrap: wrap;
+}
+
+.toolbar-button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.toolbar-button:hover {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
+.toolbar-button.active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.toolbar-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  background: #ccc;
+  margin: 0 4px;
+}
+
+.editor-container {
+  padding: 16px;
+  min-height: 300px;
+  max-height: 600px;
+  overflow-y: auto;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.editor-container .public-DraftEditor-content {
+  min-height: 280px;
+}
+
+.character-count {
+  padding: 8px 16px;
+  border-top: 1px solid #ddd;
+  background: #f9f9f9;
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+}
+
+.character-count.warning {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+/* Draft.js overrides */
+.public-DraftEditorPlaceholder-root {
+  color: #999;
+  position: absolute;
+  pointer-events: none;
+}
+
+.public-DraftEditor-content h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.public-DraftEditor-content h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.75em 0;
+}
+
+.public-DraftEditor-content ul,
+.public-DraftEditor-content ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.public-DraftEditor-content li {
+  margin: 0.5em 0;
+}
