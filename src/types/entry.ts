@@ -18,8 +18,22 @@ export interface Entry {
   mood: Mood | null;
   /** Array of tags for categorization */
   tags: string[];
+  /** Optional media files attached to the entry */
+  media?: EntryMedia[];
   /** Schema version for future migrations */
   version: number;
+}
+
+/**
+ * Represents a media file attached to an entry.
+ */
+export interface EntryMedia {
+  /** Unique identifier for the media file */
+  id: string;
+  /** Type of media */
+  type: 'image' | 'video';
+  /** Original filename */
+  name: string;
 }
 
 /**

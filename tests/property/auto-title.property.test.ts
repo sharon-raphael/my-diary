@@ -43,7 +43,7 @@ describe('Auto-Title Generation Properties', () => {
           const generated = generateTitle(content);
 
           // We test that the generated title is a substring of the stripped content
-          const strippedContent = content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
+          const strippedContent = content.replace(/<[^>]*>/g, '').trim();
           if (generated !== 'Untitled Entry') {
             const expectedStr = generated.replace('...', '');
             expect(strippedContent.includes(expectedStr)).toBe(true);

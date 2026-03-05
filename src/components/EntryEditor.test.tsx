@@ -110,6 +110,7 @@ describe('EntryEditor', () => {
       content: 'My content',
       mood: null,
       tags: [],
+      media: [],
     });
   });
 
@@ -225,6 +226,7 @@ describe('EntryEditor', () => {
       content: 'Test content',
       mood: 'happy',
       tags: ['personal', 'reflection'],
+      media: [],
     });
   });
 });

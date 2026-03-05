@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import type { Entry } from '../types';
 import { RichTextService } from '../services/RichTextService';
 import { getMoodOption } from './MoodSelector';
 import { formatDateTime } from '../utils/dateFormatter';
 import { stateToHTML } from 'draft-js-export-html';
+import { mediaService } from '../services/MediaService';
 import './EntryViewer.css';
 
 export interface EntryViewerProps {
@@ -26,6 +27,25 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
       onDelete();
     }
   };
+
+  const [mediaUrls, setMediaUrls] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (entry.media && entry.media.length > 0) {
+      Promise.all(
+        entry.media.map(async (m) => {
+          const url = await mediaService.getMediaUrl(m.id);
+          return { id: m.id, url };
+        })
+      ).then(results => {
+        const urlMap: Record<string, string> = {};
+        for (const res of results) {
+          if (res.url) urlMap[res.id] = res.url;
+        }
+        setMediaUrls(urlMap);
+      });
+    }
+  }, [entry.media]);
 
   // Convert rich text content to HTML for display
   const htmlContent = useMemo(() => {
@@ -111,6 +131,23 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
             className="content-display"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
+
+          {entry.media && entry.media.length > 0 && (
+            <div className="entry-viewer-media">
+              <h3 className="media-section-title">Attachments</h3>
+              <div className="viewer-media-list">
+                {entry.media.map(m => (
+                  <div key={m.id} className="viewer-media-item">
+                    {m.type === 'image' ? (
+                      <img src={mediaUrls[m.id] || '#'} alt={m.name} />
+                    ) : (
+                      <video src={mediaUrls[m.id] || '#'} controls />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

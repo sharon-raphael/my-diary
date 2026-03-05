@@ -3,7 +3,7 @@
  */
 
 // Entry types
-export type { Entry, Mood, MoodOption } from './entry';
+export type { Entry, EntryMedia, Mood, MoodOption } from './entry';
 
 // Sort types
 export type { SortOrder } from './sort';

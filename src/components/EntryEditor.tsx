@@ -7,6 +7,9 @@ import { TagInput } from './TagInput';
 import { RichTextService } from '../services/RichTextService';
 import { generateTitle } from '../utils/titleGenerator';
 import { getCalendarDate } from '../utils/dateFormatter';
+import { MediaUploader, type PendingMedia } from './MediaUploader';
+import { mediaService } from '../services/MediaService';
+import type { EntryMedia } from '../types';
 import './EntryEditor.css';
 
 export interface EntryEditorProps {
@@ -31,7 +34,20 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
   });
   const [mood, setMood] = useState<Mood | null>(entry?.mood || null);
   const [tags, setTags] = useState<string[]>(entry?.tags || []);
+  const [media, setMedia] = useState<PendingMedia[]>([]);
   const [isDirty, setIsDirty] = useState(false);
+
+  // Load existing media URLs
+  useEffect(() => {
+    if (entry?.media) {
+      Promise.all(
+        entry.media.map(async (m) => {
+          const url = await mediaService.getMediaUrl(m.id);
+          return { ...m, url: url || undefined };
+        })
+      ).then(setMedia);
+    }
+  }, [entry?.media]);
 
   // Track dirty state
   useEffect(() => {
@@ -41,16 +57,26 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
       date !== (entry?.date || initialDate || getCalendarDate(Date.now())) ||
       currentContent !== (entry?.content || '') ||
       mood !== (entry?.mood || null) ||
-      JSON.stringify(tags) !== JSON.stringify(entry?.tags || []);
+      JSON.stringify(tags) !== JSON.stringify(entry?.tags || []) ||
+      JSON.stringify(media.map(m => m.id)) !== JSON.stringify((entry?.media || []).map(m => m.id));
     setIsDirty(hasChanges);
-  }, [title, date, editorState, mood, tags, entry, initialDate]);
+  }, [title, date, editorState, mood, tags, media, entry, initialDate]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const serializedContent = RichTextService.serializeContent(editorState);
     const plainText = RichTextService.getPlainText(editorState);
 
     // Auto-generate title if empty
     const finalTitle = title.trim() || generateTitle(plainText);
+
+    // Save blobs for newly added media
+    for (const m of media) {
+      if (m.file) {
+        await mediaService.saveMedia(m.id, m.file);
+      }
+    }
+
+    const finalMedia: EntryMedia[] = media.map(({ id, type, name }) => ({ id, type, name }));
 
     onSave({
       title: finalTitle,
@@ -58,6 +84,7 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
       content: serializedContent,
       mood,
       tags,
+      media: finalMedia,
     });
   };
 
@@ -107,6 +134,10 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
         <MoodSelector value={mood} onChange={setMood} />
 
         <TagInput tags={tags} onChange={setTags} />
+
+        <div className="form-group">
+          <MediaUploader media={media} onChange={setMedia} />
+        </div>
 
         <div className="form-group">
           <label>Content</label>

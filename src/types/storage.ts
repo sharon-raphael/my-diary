@@ -29,6 +29,8 @@ export interface StoredEntry {
   mood: Mood | null;
   /** Array of tags */
   tags: string[];
+  /** Optional media files */
+  media?: { id: string; type: 'image' | 'video'; name: string }[];
   /** Schema version */
   version: number;
 }

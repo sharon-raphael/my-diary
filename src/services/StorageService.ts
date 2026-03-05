@@ -4,6 +4,7 @@ import type { UserPreferences } from '../types/preferences';
 import { STORAGE_KEYS } from '../types/storage';
 import type { StorageContainer, StoredEntry } from '../types/storage';
 import { StorageError } from '../types/errors';
+import { mediaService } from './MediaService';
 
 /**
  * StorageAdapter wraps the Local Storage API with error handling.
@@ -90,6 +91,15 @@ export class StorageService {
       const existingIndex = entries.findIndex(e => e.id === entry.id);
 
       if (existingIndex >= 0) {
+        // Find deleted media and remove from IndexedDB
+        const oldMedia = entries[existingIndex].media || [];
+        const newMediaIds = new Set((entry.media || []).map(m => m.id));
+        for (const m of oldMedia) {
+          if (!newMediaIds.has(m.id)) {
+            mediaService.deleteMedia(m.id).catch(console.error);
+          }
+        }
+
         entries[existingIndex] = entry;
       } else {
         entries.push(entry);
@@ -161,7 +171,14 @@ export class StorageService {
   async deleteEntry(id: string): Promise<void> {
     try {
       const entries = await this.loadEntries();
+      const entryToDelete = entries.find(e => e.id === id);
       const filtered = entries.filter(e => e.id !== id);
+
+      if (entryToDelete && entryToDelete.media) {
+        for (const m of entryToDelete.media) {
+          mediaService.deleteMedia(m.id).catch(console.error);
+        }
+      }
 
       const container: StorageContainer = {
         entries: filtered.map(this.serializeEntry),
@@ -300,6 +317,7 @@ export class StorageService {
       lastModifiedAt: entry.lastModifiedAt,
       mood: entry.mood,
       tags: entry.tags,
+      media: entry.media,
       version: entry.version
     };
   }
@@ -340,6 +358,7 @@ export class StorageService {
       lastModifiedAt: storedEntry.lastModifiedAt,
       mood: storedEntry.mood,
       tags: storedEntry.tags,
+      media: storedEntry.media,
       version: storedEntry.version || 1
     };
   }
