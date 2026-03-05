@@ -49,7 +49,7 @@ export function Navigation({
     <nav className="navigation">
       <div className="nav-header">
         <h1 className="app-title">Journey Journal</h1>
-        {currentView !== 'calendar' && (
+        {currentView === 'list' && (
           <button
             className="btn btn-primary"
             onClick={onCreateEntry}
