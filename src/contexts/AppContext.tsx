@@ -50,7 +50,7 @@ interface AppProviderProps {
  */
 export function AppProvider({ children }: AppProviderProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
-  const [currentView, setCurrentView] = useState<ViewType>('list');
+  const [currentView, setCurrentView] = useState<ViewType>('calendar');
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<SortOrder>('createdAt-desc');

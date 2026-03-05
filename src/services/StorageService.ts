@@ -1,4 +1,5 @@
 import type { Entry } from '../types/entry';
+import { getCalendarDate } from '../utils/dateFormatter';
 import type { UserPreferences } from '../types/preferences';
 import { STORAGE_KEYS } from '../types/storage';
 import type { StorageContainer, StoredEntry } from '../types/storage';
@@ -117,13 +118,13 @@ export class StorageService {
   async loadEntries(): Promise<Entry[]> {
     try {
       const data = this.adapter.getItem(STORAGE_KEYS.ENTRIES);
-      
+
       if (!data) {
         return [];
       }
 
       const container: StorageContainer = JSON.parse(data);
-      
+
       if (!container.entries || !Array.isArray(container.entries)) {
         console.warn('Invalid storage container format, returning empty array');
         return [];
@@ -143,7 +144,7 @@ export class StorageService {
 
       return entries;
     } catch (error) {
-      if (error instanceof SyntaxError) {
+      if (error instanceof Error && error.name === 'SyntaxError') {
         console.error('Failed to parse stored entries (corrupted data):', error);
         throw new StorageError('Corrupted data in storage', 'CORRUPTED_DATA');
       }
@@ -202,7 +203,7 @@ export class StorageService {
   async loadPreferences(): Promise<UserPreferences> {
     try {
       const data = this.adapter.getItem(STORAGE_KEYS.PREFERENCES);
-      
+
       if (!data) {
         return this.getDefaultPreferences();
       }
@@ -233,7 +234,7 @@ export class StorageService {
   async importData(jsonString: string): Promise<Entry[]> {
     try {
       const container: StorageContainer = JSON.parse(jsonString);
-      
+
       if (!container.entries || !Array.isArray(container.entries)) {
         throw new StorageError('Invalid import format', 'PARSE_ERROR');
       }
@@ -251,7 +252,7 @@ export class StorageService {
       // Merge with existing entries (deduplication by ID)
       const existingEntries = await this.loadEntries();
       const existingIds = new Set(existingEntries.map(e => e.id));
-      
+
       const newEntries = importedEntries.filter(e => !existingIds.has(e.id));
       const allEntries = [...existingEntries, ...newEntries];
 
@@ -270,7 +271,7 @@ export class StorageService {
       if (error instanceof StorageError) {
         throw error;
       }
-      if (error instanceof SyntaxError) {
+      if (error instanceof Error && error.name === 'SyntaxError') {
         throw new StorageError('Invalid JSON format', 'PARSE_ERROR');
       }
       throw new StorageError('Failed to import data', 'VALIDATION_ERROR');
@@ -293,6 +294,7 @@ export class StorageService {
     return {
       id: entry.id,
       title: entry.title,
+      date: entry.date,
       content: entry.content,
       createdAt: entry.createdAt,
       lastModifiedAt: entry.lastModifiedAt,
@@ -332,6 +334,7 @@ export class StorageService {
     return {
       id: storedEntry.id,
       title: storedEntry.title,
+      date: storedEntry.date || getCalendarDate(storedEntry.createdAt),
       content: storedEntry.content,
       createdAt: storedEntry.createdAt,
       lastModifiedAt: storedEntry.lastModifiedAt,

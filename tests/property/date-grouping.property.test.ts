@@ -14,6 +14,7 @@ describe('Date Grouping and Formatting Properties', () => {
   const entryArbitrary = fc.record({
     id: fc.uuid(),
     title: fc.string({ minLength: 1, maxLength: 200 }),
+    date: fc.integer({ min: 1, max: 28 }).map(d => `2024-01-${String(d).padStart(2, '0')}`),
     content: fc.string({ minLength: 1, maxLength: 1000 }),
     createdAt: fc.integer({ min: 1000000000000, max: Date.now() }),
     lastModifiedAt: fc.integer({ min: 1000000000000, max: Date.now() }),
@@ -62,7 +63,7 @@ describe('Date Grouping and Formatting Properties', () => {
         // Verify entries in same group have same calendar date
         for (const [dateKey, group] of grouped.entries()) {
           for (const entry of group) {
-            const entryDate = getCalendarDate(entry.createdAt);
+            const entryDate = entry.date;
             expect(entryDate).toBe(dateKey);
           }
         }

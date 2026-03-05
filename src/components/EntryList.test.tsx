@@ -8,6 +8,7 @@ describe('EntryList', () => {
     {
       id: '1',
       title: 'First Entry',
+      date: '2024-01-15',
       content: 'Content of first entry',
       createdAt: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
       lastModifiedAt: Date.now() - 1000 * 60 * 60 * 24,
@@ -18,6 +19,7 @@ describe('EntryList', () => {
     {
       id: '2',
       title: 'Second Entry',
+      date: '2024-01-16',
       content: 'Content of second entry',
       createdAt: Date.now() - 1000 * 60 * 60, // 1 hour ago
       lastModifiedAt: Date.now() - 1000 * 60 * 60,

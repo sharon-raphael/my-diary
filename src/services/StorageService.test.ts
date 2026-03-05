@@ -17,6 +17,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'test-id-1',
         title: 'Test Entry',
+        date: '2024-01-01',
         content: 'This is test content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -36,6 +37,7 @@ describe('StorageService', () => {
       const entry1: Entry = {
         id: 'test-id-1',
         title: 'Entry 1',
+        date: '2024-01-01',
         content: 'Content 1',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -47,6 +49,7 @@ describe('StorageService', () => {
       const entry2: Entry = {
         id: 'test-id-2',
         title: 'Entry 2',
+        date: '2024-01-01',
         content: 'Content 2',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -68,6 +71,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'test-id-1',
         title: 'Original Title',
+        date: '2024-01-01',
         content: 'Original content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -81,6 +85,7 @@ describe('StorageService', () => {
       const updatedEntry: Entry = {
         ...entry,
         title: 'Updated Title',
+        date: '2024-01-01',
         content: 'Updated content',
         lastModifiedAt: Date.now()
       };
@@ -104,6 +109,7 @@ describe('StorageService', () => {
       const entry1: Entry = {
         id: 'test-id-1',
         title: 'Entry 1',
+        date: '2024-01-01',
         content: 'Content 1',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -115,6 +121,7 @@ describe('StorageService', () => {
       const entry2: Entry = {
         id: 'test-id-2',
         title: 'Entry 2',
+        date: '2024-01-01',
         content: 'Content 2',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -179,6 +186,7 @@ describe('StorageService', () => {
       const validEntry: Entry = {
         id: 'valid-id',
         title: 'Valid Entry',
+        date: '2024-01-01',
         content: 'Valid content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -216,6 +224,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'test-id',
         title: 'Test',
+        date: '2024-01-01',
         content: 'Content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -237,6 +246,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'test-id',
         title: 'Test Entry',
+        date: '2024-01-01',
         content: 'Test content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -258,6 +268,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'imported-id',
         title: 'Imported Entry',
+        date: '2024-01-01',
         content: 'Imported content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -285,6 +296,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'duplicate-id',
         title: 'Original',
+        date: '2024-01-01',
         content: 'Original content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -298,6 +310,7 @@ describe('StorageService', () => {
       const duplicateEntry: Entry = {
         ...entry,
         title: 'Duplicate',
+        date: '2024-01-01',
         content: 'Duplicate content'
       };
 
@@ -332,6 +345,7 @@ describe('StorageService', () => {
       const entry: Entry = {
         id: 'test-id',
         title: 'Test',
+        date: '2024-01-01',
         content: 'Content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),

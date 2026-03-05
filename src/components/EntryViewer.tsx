@@ -60,6 +60,10 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack }: EntryViewerProp
 
         <div className="entry-metadata">
           <div className="metadata-item">
+            <span className="metadata-label">Journal Date:</span>
+            <span className="metadata-value">{entry.date}</span>
+          </div>
+          <div className="metadata-item">
             <span className="metadata-label">Created:</span>
             <span className="metadata-value">{formatDateTime(entry.createdAt)}</span>
           </div>
@@ -96,7 +100,7 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack }: EntryViewerProp
         )}
 
         <div className="entry-body">
-          <div 
+          <div
             className="content-display"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />

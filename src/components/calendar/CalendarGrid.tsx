@@ -28,15 +28,14 @@ export function CalendarGrid({
 }: CalendarGridProps) {
   // Generate the calendar grid with padding from adjacent months
   const gridCells = generateCalendarGrid(month, year);
-  
+
   // Map entries to dates for quick lookup
   const entriesByDate: Record<string, number> = {};
   entries.forEach((entry) => {
-    const entryDate = new Date(entry.createdAt);
-    const key = getDateKey(entryDate);
+    const key = entry.date;
     entriesByDate[key] = (entriesByDate[key] || 0) + 1;
   });
-  
+
   return (
     <div className="calendar-grid">
       <WeekdayHeaders />
@@ -45,7 +44,7 @@ export function CalendarGrid({
           const dateKey = getDateKey(cell.date);
           const entryCount = entriesByDate[dateKey] || 0;
           const isToday = isSameDay(cell.date, currentDate);
-          
+
           return (
             <DateCell
               key={index}

@@ -10,6 +10,7 @@ import type { Entry, Mood } from '../../src/types/entry';
  */
 const entryDataArbitrary = fc.record({
   title: fc.string({ minLength: 1, maxLength: 200 }),
+  date: fc.integer({ min: 1, max: 28 }).map(d => `2024-01-${String(d).padStart(2, '0')}`),
   content: fc.string({ minLength: 1, maxLength: 1000 }),
   mood: fc.option(
     fc.constantFrom<Mood>(

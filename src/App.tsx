@@ -5,6 +5,7 @@ import { useSearch } from './hooks/useSearch';
 import { useSort } from './hooks/useSort';
 import { EntryList, EntryEditor, EntryViewer, Navigation } from './components';
 import { CalendarView } from './components/calendar';
+import { getCalendarDate } from './utils/dateFormatter';
 import type { Entry } from './types';
 import './App.css';
 
@@ -18,6 +19,7 @@ function AppContent() {
   const { sortedEntries, sortOrder, setSortOrder } = useSort(filteredEntries);
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [initialEditorDate, setInitialEditorDate] = useState<string | undefined>(undefined);
 
   /**
    * Show notification
@@ -61,8 +63,9 @@ function AppContent() {
   /**
    * Handles create entry button click
    */
-  const handleCreateEntry = () => {
+  const handleCreateEntry = (date?: Date) => {
     setSelectedEntryId(null);
+    setInitialEditorDate(date ? getCalendarDate(date.getTime()) : undefined);
     setCurrentView('editor');
   };
 
@@ -80,6 +83,7 @@ function AppContent() {
       }
       setCurrentView('list');
       setSelectedEntryId(null);
+      setInitialEditorDate(undefined);
     } catch (error) {
       console.error('Failed to save entry:', error);
       showNotification('Failed to save entry', 'error');
@@ -92,6 +96,7 @@ function AppContent() {
   const handleCancelEdit = () => {
     setCurrentView('list');
     setSelectedEntryId(null);
+    setInitialEditorDate(undefined);
   };
 
   /**
@@ -127,6 +132,7 @@ function AppContent() {
         return (
           <EntryEditor
             entry={entryToEdit}
+            initialDate={initialEditorDate}
             onSave={handleSaveEntry}
             onCancel={handleCancelEdit}
           />

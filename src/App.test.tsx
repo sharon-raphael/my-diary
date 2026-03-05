@@ -8,7 +8,7 @@ describe('App', () => {
       render(<App />);
     });
 
-    expect(screen.getAllByRole('button', { name: /create new entry/i }).length).toBeGreaterThan(0);
+    expect(screen.getByText('Calendar View')).toBeInTheDocument();
   });
 
   it('should wrap content with AppProvider', async () => {

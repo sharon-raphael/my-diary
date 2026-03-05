@@ -3,11 +3,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { AppProvider } from '../../contexts/AppContext';
 import { CalendarView } from './CalendarView';
 import type { Entry } from '../../types';
+import { getCalendarDate } from '../../utils/dateFormatter';
 
 // Helper to create test entries
 const createTestEntry = (id: string, title: string, createdAt: number): Entry => ({
   id,
   title,
+  date: getCalendarDate(createdAt),
   content: 'Test content',
   createdAt,
   lastModifiedAt: createdAt,
@@ -621,10 +623,17 @@ describe('Missing Entry Handling', () => {
 
     expect(todayCell).toBeTruthy();
 
-    // Click on the date cell
+    // Click on the date cell to open modal
     if (todayCell) {
       fireEvent.click(todayCell);
     }
+
+    // Modal should be open
+    expect(screen.getByText('Entry 1')).toBeInTheDocument();
+
+    // Select the entry in the modal
+    const entry1Button = screen.getByText('Entry 1');
+    fireEvent.click(entry1Button);
 
     // Should navigate successfully without notification
     expect(alertSpy).not.toHaveBeenCalled();

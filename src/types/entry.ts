@@ -6,6 +6,8 @@ export interface Entry {
   id: string;
   /** Entry title (max 200 characters) */
   title: string;
+  /** The calendar date of the entry (YYYY-MM-DD) */
+  date: string;
   /** Rich text content as HTML or JSON (max 100,000 characters) */
   content: string;
   /** Unix timestamp in milliseconds when entry was created */

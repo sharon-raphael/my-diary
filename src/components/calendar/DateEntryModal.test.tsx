@@ -9,6 +9,7 @@ describe('DateEntryModal', () => {
     {
       id: '1',
       title: 'Morning Journal',
+      date: '2024-01-15',
       content: 'Test content 1',
       createdAt: new Date('2024-01-15T08:00:00.000Z').getTime(),
       lastModifiedAt: new Date('2024-01-15T08:00:00.000Z').getTime(),
@@ -19,6 +20,7 @@ describe('DateEntryModal', () => {
     {
       id: '2',
       title: 'Evening Reflection',
+      date: '2024-01-15',
       content: 'Test content 2',
       createdAt: new Date('2024-01-15T20:00:00.000Z').getTime(),
       lastModifiedAt: new Date('2024-01-15T20:00:00.000Z').getTime(),
@@ -95,7 +97,7 @@ describe('DateEntryModal', () => {
 
     const firstEntry = screen.getByText('Morning Journal').closest('[role="button"]');
     expect(firstEntry).toBeInTheDocument();
-    
+
     if (firstEntry) {
       fireEvent.keyDown(firstEntry, { key: 'Enter' });
       expect(mockOnSelectEntry).toHaveBeenCalledWith('1');
@@ -114,7 +116,7 @@ describe('DateEntryModal', () => {
 
     const firstEntry = screen.getByText('Morning Journal').closest('[role="button"]');
     expect(firstEntry).toBeInTheDocument();
-    
+
     if (firstEntry) {
       fireEvent.keyDown(firstEntry, { key: ' ' });
       expect(mockOnSelectEntry).toHaveBeenCalledWith('1');
@@ -165,7 +167,7 @@ describe('DateEntryModal', () => {
 
     const modalContent = screen.getByText('Morning Journal').closest('.date-entry-modal');
     expect(modalContent).toBeInTheDocument();
-    
+
     if (modalContent) {
       fireEvent.click(modalContent);
       expect(mockOnClose).not.toHaveBeenCalled();
@@ -226,7 +228,7 @@ describe('DateEntryModal', () => {
 
   it('renders with single entry', () => {
     const singleEntry = [mockEntries[0]];
-    
+
     render(
       <DateEntryModal
         date={mockDate}
@@ -244,6 +246,7 @@ describe('DateEntryModal', () => {
     const manyEntries: Entry[] = Array.from({ length: 5 }, (_, i) => ({
       id: `${i + 1}`,
       title: `Entry ${i + 1}`,
+      date: '2024-01-15',
       content: `Content ${i + 1}`,
       createdAt: new Date(`2024-01-15T${10 + i}:00:00.000Z`).getTime(),
       lastModifiedAt: new Date(`2024-01-15T${10 + i}:00:00.000Z`).getTime(),

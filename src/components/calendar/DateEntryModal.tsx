@@ -9,6 +9,7 @@ export interface DateEntryModalProps {
   entries: Entry[];
   onSelectEntry: (entryId: string) => void;
   onClose: () => void;
+  onCreateEntry?: () => void;
 }
 
 /**
@@ -26,6 +27,7 @@ export function DateEntryModal({
   entries,
   onSelectEntry,
   onClose,
+  onCreateEntry,
 }: DateEntryModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -121,6 +123,17 @@ export function DateEntryModal({
               </p>
             </div>
           ))}
+          {onCreateEntry && (
+            <div className="modal-actions" style={{ marginTop: '15px', textAlign: 'center' }}>
+              <button
+                className="btn btn-primary"
+                onClick={onCreateEntry}
+                aria-label="Create new entry"
+              >
+                + New Entry
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

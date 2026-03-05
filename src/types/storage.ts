@@ -17,6 +17,8 @@ export interface StoredEntry {
   id: string;
   /** Entry title */
   title: string;
+  /** The calendar date of the entry (YYYY-MM-DD) */
+  date: string;
   /** Serialized rich text content */
   content: string;
   /** Unix timestamp in milliseconds when entry was created */

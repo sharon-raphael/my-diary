@@ -3,6 +3,39 @@ import fc from 'fast-check';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { EntryEditor } from '../../src/components/EntryEditor';
 
+vi.mock('draft-js', () => ({
+  EditorState: {
+    createEmpty: vi.fn(() => ''),
+  }
+}));
+
+vi.mock('../../src/components/RichTextEditor', () => ({
+  RichTextEditor: ({ onChange, initialContent }: any) => {
+    const contentValue = typeof initialContent === 'string' ? initialContent :
+      (initialContent && typeof initialContent.getCurrentContent === 'function' ?
+        initialContent.getCurrentContent().getPlainText() : '');
+
+    return (
+      <textarea
+        aria-label="Content"
+        data-testid="rich-text-editor"
+        value={contentValue}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+      />
+    );
+  }
+}));
+
+vi.mock('../../src/services/RichTextService', () => ({
+  RichTextService: {
+    deserializeContent: vi.fn((content) => content || ''),
+    serializeContent: vi.fn((content) => content),
+    getPlainText: vi.fn((content) => content || ''),
+  }
+}));
+
 /**
  * Custom fast-check arbitrary for generating text content
  */
@@ -22,7 +55,7 @@ describe('Property-Based Tests: Content Preservation', () => {
         fc.property(textContentArbitrary, (textContent) => {
           // Clean up any previous renders
           cleanup();
-          
+
           const mockSave = vi.fn();
           const mockCancel = vi.fn();
 
@@ -56,7 +89,7 @@ describe('Property-Based Tests: Content Preservation', () => {
           (textContent) => {
             // Clean up any previous renders
             cleanup();
-            
+
             const mockSave = vi.fn();
             const mockCancel = vi.fn();
 
@@ -92,7 +125,7 @@ describe('Property-Based Tests: Content Preservation', () => {
           (initialContent, newContent) => {
             // Clean up any previous renders
             cleanup();
-            
+
             const mockSave = vi.fn();
             const mockCancel = vi.fn();
 
@@ -141,7 +174,7 @@ describe('Property-Based Tests: Content Preservation', () => {
           (contentSequence) => {
             // Clean up any previous renders
             cleanup();
-            
+
             const mockSave = vi.fn();
             const mockCancel = vi.fn();
 

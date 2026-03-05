@@ -40,10 +40,9 @@ export function CalendarView({
    * Filters entries for the currently selected month
    */
   const getEntriesForMonth = (month: number, year: number): Entry[] => {
-    return entries.filter((entry) => {
-      const entryDate = new Date(entry.createdAt);
-      return entryDate.getMonth() === month && entryDate.getFullYear() === year;
-    });
+    const monthStr = String(month + 1).padStart(2, '0');
+    const prefix = `${year}-${monthStr}`;
+    return entries.filter((entry) => entry.date.startsWith(prefix));
   };
 
   /**
@@ -51,29 +50,17 @@ export function CalendarView({
    */
   const getEntriesForDate = (date: Date): Entry[] => {
     const dateKey = getDateKey(date);
-    return entries.filter((entry) => {
-      const entryDate = new Date(entry.createdAt);
-      return getDateKey(entryDate) === dateKey;
-    });
+    return entries.filter((entry) => entry.date === dateKey);
   };
 
-  /**
-   * Handles date cell clicks
-   * - 0 entries: show create option
-   * - 1 entry: navigate to viewer
-   * - 2+ entries: show modal
-   */
   const handleDateClick = (date: Date) => {
     const dateEntries = getEntriesForDate(date);
 
     if (dateEntries.length === 0) {
       // No entries - provide option to create
       onCreateEntry(date);
-    } else if (dateEntries.length === 1) {
-      // Single entry - navigate directly to viewer
-      onSelectEntry(dateEntries[0].id);
     } else {
-      // Multiple entries - show modal
+      // 1 or more entries - show modal
       setSelectedDate(date);
       setShowDateModal(true);
     }
@@ -196,6 +183,10 @@ export function CalendarView({
           entries={getEntriesForDate(selectedDate)}
           onSelectEntry={handleSelectEntry}
           onClose={handleCloseModal}
+          onCreateEntry={() => {
+            handleCloseModal();
+            onCreateEntry(selectedDate);
+          }}
         />
       )}
     </div>

@@ -6,19 +6,23 @@ import { MoodSelector } from './MoodSelector';
 import { TagInput } from './TagInput';
 import { RichTextService } from '../services/RichTextService';
 import { generateTitle } from '../utils/titleGenerator';
+import { getCalendarDate } from '../utils/dateFormatter';
 import './EntryEditor.css';
 
 export interface EntryEditorProps {
   /** Entry to edit (undefined for new entries) */
   entry?: Entry;
+  /** Explicit initial date provided (YYYY-MM-DD), overriding today's date */
+  initialDate?: string;
   /** Callback when entry is saved */
   onSave: (entry: Omit<Entry, 'id' | 'createdAt' | 'lastModifiedAt' | 'version'>) => void;
   /** Callback when editing is cancelled */
   onCancel: () => void;
 }
 
-export function EntryEditor({ entry, onSave, onCancel }: EntryEditorProps) {
+export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEditorProps) {
   const [title, setTitle] = useState(entry?.title || '');
+  const [date, setDate] = useState(entry?.date || initialDate || getCalendarDate(Date.now()));
   const [editorState, setEditorState] = useState(() => {
     if (entry?.content) {
       return RichTextService.deserializeContent(entry.content);
@@ -32,23 +36,25 @@ export function EntryEditor({ entry, onSave, onCancel }: EntryEditorProps) {
   // Track dirty state
   useEffect(() => {
     const currentContent = RichTextService.serializeContent(editorState);
-    const hasChanges = 
-      title !== (entry?.title || '') || 
+    const hasChanges =
+      title !== (entry?.title || '') ||
+      date !== (entry?.date || initialDate || getCalendarDate(Date.now())) ||
       currentContent !== (entry?.content || '') ||
       mood !== (entry?.mood || null) ||
       JSON.stringify(tags) !== JSON.stringify(entry?.tags || []);
     setIsDirty(hasChanges);
-  }, [title, editorState, mood, tags, entry]);
+  }, [title, date, editorState, mood, tags, entry, initialDate]);
 
   const handleSave = () => {
     const serializedContent = RichTextService.serializeContent(editorState);
     const plainText = RichTextService.getPlainText(editorState);
-    
+
     // Auto-generate title if empty
     const finalTitle = title.trim() || generateTitle(plainText);
 
     onSave({
       title: finalTitle,
+      date,
       content: serializedContent,
       mood,
       tags,
@@ -70,18 +76,32 @@ export function EntryEditor({ entry, onSave, onCancel }: EntryEditorProps) {
       </div>
 
       <div className="entry-editor-form">
-        <div className="form-group">
-          <label htmlFor="entry-title">Title</label>
-          <input
-            id="entry-title"
-            type="text"
-            className="title-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter a title (or leave blank for auto-title)..."
-            maxLength={200}
-          />
-          <span className="char-count">{title.length}/200</span>
+        <div className="form-row">
+          <div className="form-group flex-1">
+            <label htmlFor="entry-title">Title</label>
+            <input
+              id="entry-title"
+              type="text"
+              className="title-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter a title (or leave blank for auto-title)..."
+              maxLength={200}
+            />
+            <span className="char-count">{title.length}/200</span>
+          </div>
+
+          <div className="form-group date-picker-group">
+            <label htmlFor="entry-date">Date</label>
+            <input
+              id="entry-date"
+              type="date"
+              className="date-input"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         <MoodSelector value={mood} onChange={setMood} />
@@ -100,19 +120,19 @@ export function EntryEditor({ entry, onSave, onCancel }: EntryEditorProps) {
       </div>
 
       <div className="entry-editor-actions">
-        <button 
-          className="btn btn-secondary" 
+        <button
+          className="btn btn-secondary"
           onClick={handleCancel}
         >
           Cancel
         </button>
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           onClick={handleSave}
         >
           Save Entry
         </button>
       </div>
-    </div>
+    </div >
   );
 }

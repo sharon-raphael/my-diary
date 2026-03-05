@@ -9,7 +9,7 @@ describe('AppContext', () => {
     });
 
     expect(result.current.entries).toEqual([]);
-    expect(result.current.currentView).toBe('list');
+    expect(result.current.currentView).toBe('calendar');
     expect(result.current.selectedEntryId).toBeNull();
     expect(result.current.searchQuery).toBe('');
     expect(result.current.sortOrder).toBe('createdAt-desc');
@@ -26,6 +26,7 @@ describe('AppContext', () => {
       {
         id: '1',
         title: 'Test Entry',
+        date: '2024-01-01',
         content: 'Test content',
         createdAt: Date.now(),
         lastModifiedAt: Date.now(),
@@ -153,7 +154,7 @@ describe('AppContext', () => {
   it('should throw error when useAppContext is used outside provider', () => {
     // Suppress console.error for this test
     const originalError = console.error;
-    console.error = () => {};
+    console.error = () => { };
 
     expect(() => {
       renderHook(() => useAppContext());

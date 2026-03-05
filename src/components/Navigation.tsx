@@ -49,13 +49,15 @@ export function Navigation({
     <nav className="navigation">
       <div className="nav-header">
         <h1 className="app-title">Journey Journal</h1>
-        <button
-          className="btn btn-primary"
-          onClick={onCreateEntry}
-          aria-label="Create new entry"
-        >
-          + New Entry
-        </button>
+        {currentView !== 'calendar' && (
+          <button
+            className="btn btn-primary"
+            onClick={onCreateEntry}
+            aria-label="Create new entry"
+          >
+            + New Entry
+          </button>
+        )}
       </div>
 
       <div className="nav-controls">

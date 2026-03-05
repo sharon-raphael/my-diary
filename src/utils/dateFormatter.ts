@@ -49,21 +49,24 @@ export function formatShortDate(timestamp: number): string {
  */
 export function getCalendarDate(timestamp: number): string {
   const date = new Date(timestamp);
-  return date.toISOString().split('T')[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 /**
  * Group entries by calendar date
- * @param entries - Array of entries with createdAt timestamps
+ * @param entries - Array of entries with date strings
  * @returns Map of date strings to entry arrays
  */
-export function groupEntriesByDate<T extends { createdAt: number }>(
+export function groupEntriesByDate<T extends { date: string }>(
   entries: T[]
 ): Map<string, T[]> {
   const groups = new Map<string, T[]>();
 
   for (const entry of entries) {
-    const dateKey = getCalendarDate(entry.createdAt);
+    const dateKey = entry.date;
     const group = groups.get(dateKey) || [];
     group.push(entry);
     groups.set(dateKey, group);

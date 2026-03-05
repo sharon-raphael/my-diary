@@ -10,6 +10,7 @@ describe('CalendarGrid', () => {
   const createMockEntry = (id: string, date: Date): Entry => ({
     id,
     title: `Entry ${id}`,
+    date: date.toISOString().split('T')[0],
     content: 'Test content',
     mood: 'happy',
     tags: [],

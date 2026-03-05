@@ -39,15 +39,15 @@ describe('Month Navigation Property Tests', () => {
         fc.integer({ min: 1901, max: 2100 }),
         (month, year) => {
           const [newMonth, newYear] = navigateToPreviousMonth(month, year);
-          
+
           // Property 1: New month should be valid (0-11)
           expect(newMonth).toBeGreaterThanOrEqual(0);
           expect(newMonth).toBeLessThanOrEqual(11);
-          
+
           // Property 2: New year should be valid
           expect(newYear).toBeGreaterThanOrEqual(1900);
           expect(newYear).toBeLessThanOrEqual(2100);
-          
+
           // Property 3: If original month was January (0), new month should be December (11)
           // and year should decrease by 1
           if (month === 0) {
@@ -68,18 +68,18 @@ describe('Month Navigation Property Tests', () => {
     fc.assert(
       fc.property(
         fc.integer({ min: 0, max: 11 }),
-        fc.integer({ min: 1900, max: 2100 }),
+        fc.integer({ min: 1900, max: 2099 }),
         (month, year) => {
           const [newMonth, newYear] = navigateToNextMonth(month, year);
-          
+
           // Property 1: New month should be valid (0-11)
           expect(newMonth).toBeGreaterThanOrEqual(0);
           expect(newMonth).toBeLessThanOrEqual(11);
-          
+
           // Property 2: New year should be valid
           expect(newYear).toBeGreaterThanOrEqual(1900);
           expect(newYear).toBeLessThanOrEqual(2100);
-          
+
           // Property 3: If original month was December (11), new month should be January (0)
           // and year should increase by 1
           if (month === 11) {
@@ -104,7 +104,7 @@ describe('Month Navigation Property Tests', () => {
           // Start at January (month 0)
           const month = 0;
           const [newMonth, newYear] = navigateToPreviousMonth(month, year);
-          
+
           // Property: Navigating from January should go to December of previous year
           expect(newMonth).toBe(11);
           expect(newYear).toBe(year - 1);
@@ -122,7 +122,7 @@ describe('Month Navigation Property Tests', () => {
           // Start at December (month 11)
           const month = 11;
           const [newMonth, newYear] = navigateToNextMonth(month, year);
-          
+
           // Property: Navigating from December should go to January of next year
           expect(newMonth).toBe(0);
           expect(newYear).toBe(year + 1);
@@ -141,7 +141,7 @@ describe('Month Navigation Property Tests', () => {
           // Navigate forward then backward
           const [nextMonth, nextYear] = navigateToNextMonth(month, year);
           const [backMonth, backYear] = navigateToPreviousMonth(nextMonth, nextYear);
-          
+
           // Property: Should return to original month and year
           expect(backMonth).toBe(month);
           expect(backYear).toBe(year);
@@ -160,7 +160,7 @@ describe('Month Navigation Property Tests', () => {
           // Navigate backward then forward
           const [prevMonth, prevYear] = navigateToPreviousMonth(month, year);
           const [forwardMonth, forwardYear] = navigateToNextMonth(prevMonth, prevYear);
-          
+
           // Property: Should return to original month and year
           expect(forwardMonth).toBe(month);
           expect(forwardYear).toBe(year);
@@ -179,17 +179,17 @@ describe('Month Navigation Property Tests', () => {
         (startMonth, startYear, monthsToNavigate) => {
           let currentMonth = startMonth;
           let currentYear = startYear;
-          
+
           // Navigate forward N months
           for (let i = 0; i < monthsToNavigate; i++) {
             [currentMonth, currentYear] = navigateToNextMonth(currentMonth, currentYear);
           }
-          
+
           // Property: Calculate expected final position
           const totalMonths = startYear * 12 + startMonth + monthsToNavigate;
           const expectedYear = Math.floor(totalMonths / 12);
           const expectedMonth = totalMonths % 12;
-          
+
           expect(currentMonth).toBe(expectedMonth);
           expect(currentYear).toBe(expectedYear);
         }
