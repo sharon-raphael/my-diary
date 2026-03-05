@@ -623,17 +623,10 @@ describe('Missing Entry Handling', () => {
 
     expect(todayCell).toBeTruthy();
 
-    // Click on the date cell to open modal
+    // Click on the date cell
     if (todayCell) {
       fireEvent.click(todayCell);
     }
-
-    // Modal should be open
-    expect(screen.getByText('Entry 1')).toBeInTheDocument();
-
-    // Select the entry in the modal
-    const entry1Button = screen.getByText('Entry 1');
-    fireEvent.click(entry1Button);
 
     // Should navigate successfully without notification
     expect(alertSpy).not.toHaveBeenCalled();

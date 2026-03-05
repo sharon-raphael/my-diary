@@ -150,6 +150,10 @@ function AppContent() {
             onEdit={handleEditEntry}
             onDelete={() => handleDeleteEntry(entryToView.id)}
             onBack={handleBackToList}
+            onCreateEntry={() => {
+              const entryDate = entryToView.date ? new Date(`${entryToView.date}T12:00:00`) : new Date();
+              handleCreateEntry(entryDate);
+            }}
           />
         );
       case 'calendar':

@@ -59,8 +59,11 @@ export function CalendarView({
     if (dateEntries.length === 0) {
       // No entries - provide option to create
       onCreateEntry(date);
+    } else if (dateEntries.length === 1) {
+      // Single entry - navigate directly to viewer
+      onSelectEntry(dateEntries[0].id);
     } else {
-      // 1 or more entries - show modal
+      // Multiple entries - show modal
       setSelectedDate(date);
       setShowDateModal(true);
     }

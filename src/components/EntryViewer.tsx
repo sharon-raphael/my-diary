@@ -15,9 +15,11 @@ export interface EntryViewerProps {
   onDelete: () => void;
   /** Callback when back button is clicked */
   onBack: () => void;
+  /** Callback when new entry is clicked */
+  onCreateEntry?: () => void;
 }
 
-export function EntryViewer({ entry, onEdit, onDelete, onBack }: EntryViewerProps) {
+export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: EntryViewerProps) {
   const handleDelete = () => {
     const confirmed = window.confirm('Are you sure you want to delete this entry? This action cannot be undone.');
     if (confirmed) {
@@ -46,6 +48,11 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack }: EntryViewerProp
           ← Back
         </button>
         <div className="entry-viewer-actions">
+          {onCreateEntry && (
+            <button className="btn btn-primary" onClick={onCreateEntry}>
+              + New Entry
+            </button>
+          )}
           <button className="btn btn-secondary" onClick={onEdit}>
             Edit
           </button>
