@@ -20,6 +20,7 @@ function AppContent() {
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [initialEditorDate, setInitialEditorDate] = useState<string | undefined>(undefined);
+  const [previousBaseView, setPreviousBaseView] = useState<'list' | 'calendar'>('calendar');
 
   /**
    * Show notification
@@ -33,6 +34,9 @@ function AppContent() {
    * Handles entry selection - navigates to viewer
    */
   const handleSelectEntry = (entryId: string) => {
+    if (currentView === 'list' || currentView === 'calendar') {
+      setPreviousBaseView(currentView);
+    }
     setSelectedEntryId(entryId);
     setCurrentView('viewer');
   };
@@ -43,7 +47,7 @@ function AppContent() {
   const handleDeleteEntry = async (entryId: string) => {
     try {
       await deleteEntry(entryId);
-      setCurrentView('calendar');
+      setCurrentView(previousBaseView);
       setSelectedEntryId(null);
       showNotification('Entry deleted successfully');
     } catch (error) {
@@ -64,6 +68,9 @@ function AppContent() {
    * Handles create entry button click
    */
   const handleCreateEntry = (date?: Date) => {
+    if (currentView === 'list' || currentView === 'calendar') {
+      setPreviousBaseView(currentView);
+    }
     setSelectedEntryId(null);
     setInitialEditorDate(date ? getCalendarDate(date.getTime()) : undefined);
     setCurrentView('editor');
@@ -81,7 +88,7 @@ function AppContent() {
         await createEntry(entryData);
         showNotification('Entry created successfully');
       }
-      setCurrentView('calendar');
+      setCurrentView(previousBaseView);
       setSelectedEntryId(null);
       setInitialEditorDate(undefined);
     } catch (error) {
@@ -94,7 +101,7 @@ function AppContent() {
    * Handles cancel button in editor
    */
   const handleCancelEdit = () => {
-    setCurrentView('calendar');
+    setCurrentView(previousBaseView);
     setSelectedEntryId(null);
     setInitialEditorDate(undefined);
   };
@@ -110,7 +117,7 @@ function AppContent() {
    * Handles back button in viewer
    */
   const handleBackToList = () => {
-    setCurrentView('calendar');
+    setCurrentView(previousBaseView);
     setSelectedEntryId(null);
   };
 
@@ -140,7 +147,7 @@ function AppContent() {
       case 'viewer':
         const entryToView = selectedEntryId ? getEntry(selectedEntryId) : null;
         if (!entryToView) {
-          setCurrentView('calendar');
+          setCurrentView(previousBaseView);
           setSelectedEntryId(null);
           return null;
         }
