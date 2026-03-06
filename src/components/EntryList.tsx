@@ -163,8 +163,6 @@ export function EntryList({
             >
               <option value="createdAt-desc">Newest First</option>
               <option value="createdAt-asc">Oldest First</option>
-              <option value="modifiedAt-desc">Recently Mod</option>
-              <option value="modifiedAt-asc">Least Rec Mod</option>
             </select>
           )}
         </div>
