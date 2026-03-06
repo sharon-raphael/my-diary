@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Entry, Mood } from '../types';
+import type { Entry, Mood, SortOrder } from '../types';
 import './EntryList.css';
 
 /**
@@ -12,6 +12,14 @@ export interface EntryListProps {
   onSelectEntry: (entryId: string) => void;
   /** Handler called when an entry is deleted */
   onDeleteEntry: (entryId: string) => void;
+  /** Search query string */
+  searchQuery?: string;
+  /** Search query change handler */
+  onSearchChange?: (query: string) => void;
+  /** Current SortOrder value */
+  sortOrder?: SortOrder;
+  /** Sort order change handler */
+  onSortChange?: (order: SortOrder) => void;
 }
 
 /**
@@ -84,7 +92,10 @@ export function EntryList({
   entries,
   onSelectEntry,
   onDeleteEntry,
-  onCreateEntry
+  searchQuery = '',
+  onSearchChange,
+  sortOrder = 'createdAt-desc',
+  onSortChange
 }: EntryListProps) {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -127,8 +138,39 @@ export function EntryList({
 
   return (
     <div className="entry-list">
-      <div className="entry-list-header">
-        <h2>Journal Entries</h2>
+      <div className="calendar-header" style={{ marginBottom: '24px' }}>
+        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>Journal Entries</h2>
+
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+          {onSearchChange && (
+            <div className="search-bar" style={{ flex: '1 1 250px' }}>
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search entries..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+              />
+            </div>
+          )}
+
+          {onSortChange && (
+            <div className="sort-control" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <label htmlFor="sort-select" className="sort-label">Sort by:</label>
+              <select
+                id="sort-select"
+                className="sort-select"
+                value={sortOrder}
+                onChange={(e) => onSortChange(e.target.value as SortOrder)}
+              >
+                <option value="createdAt-desc">Newest First</option>
+                <option value="createdAt-asc">Oldest First</option>
+                <option value="modifiedAt-desc">Recently Modified</option>
+                <option value="modifiedAt-asc">Least Recently Modified</option>
+              </select>
+            </div>
+          )}
+        </div>
       </div>
 
       {entries.length === 0 ? (

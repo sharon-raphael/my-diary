@@ -14,7 +14,7 @@ import './App.css';
  */
 function AppContent() {
   const { currentView, selectedEntryId, setCurrentView, setSelectedEntryId } = useAppContext();
-  const { entries, loading, error, createEntry, updateEntry, deleteEntry, getEntry, exportEntries, importEntries } = useEntries();
+  const { entries, loading, error, createEntry, updateEntry, deleteEntry, getEntry } = useEntries();
   const { filteredEntries, query, setQuery } = useSearch(entries);
   const { sortedEntries, sortOrder, setSortOrder } = useSort(filteredEntries);
 
@@ -131,6 +131,10 @@ function AppContent() {
               entries={sortedEntries}
               onSelectEntry={handleSelectEntry}
               onDeleteEntry={handleDeleteEntry}
+              searchQuery={query}
+              onSearchChange={setQuery}
+              sortOrder={sortOrder}
+              onSortChange={setSortOrder}
             />
           </div>
         );
@@ -177,11 +181,14 @@ function AppContent() {
       default:
         return (
           <div>
-            <h1 style={{ padding: '20px' }}>Journey Journal</h1>
             <EntryList
               entries={sortedEntries}
               onSelectEntry={handleSelectEntry}
               onDeleteEntry={handleDeleteEntry}
+              searchQuery={query}
+              onSearchChange={setQuery}
+              sortOrder={sortOrder}
+              onSortChange={setSortOrder}
             />
           </div>
         );
@@ -196,12 +203,6 @@ function AppContent() {
         </div>
       )}
       <Navigation
-        searchQuery={query}
-        onSearchChange={setQuery}
-        sortOrder={sortOrder}
-        onSortChange={setSortOrder}
-        onExport={exportEntries}
-        onImport={importEntries}
         onCreateEntry={handleCreateEntry}
         currentView={currentView}
         onViewChange={setCurrentView}
