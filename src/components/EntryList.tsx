@@ -142,7 +142,7 @@ export function EntryList({
       <div className="calendar-header">
         <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#2c3e50' }}>Journal Entries</h2>
 
-        <div className="calendar-navigation" style={{ background: 'transparent', boxShadow: 'none' }}>
+        <div className="calendar-header-selectors">
           {onSearchChange && (
             <div className="search-bar" style={{ display: 'flex', alignItems: 'center' }}>
               <input
@@ -150,35 +150,21 @@ export function EntryList({
                 placeholder="Search entries..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                style={{
-                  background: 'linear-gradient(135deg, #fdfdfd, #f0f4f8)',
-                  border: '1px solid #e1e8ed',
-                  padding: '10px 16px',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  color: '#2c3e50',
-                  borderRadius: '12px',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                  outline: 'none',
-                  minWidth: '250px'
-                }}
               />
             </div>
           )}
 
           {onSortChange && (
-            <div className="calendar-header-selectors">
-              <select
-                value={sortOrder}
-                onChange={(e) => onSortChange(e.target.value as SortOrder)}
-                aria-label="Sort entries"
-              >
-                <option value="createdAt-desc">Newest First</option>
-                <option value="createdAt-asc">Oldest First</option>
-                <option value="modifiedAt-desc">Recently Mod</option>
-                <option value="modifiedAt-asc">Least Rec Mod</option>
-              </select>
-            </div>
+            <select
+              value={sortOrder}
+              onChange={(e) => onSortChange(e.target.value as SortOrder)}
+              aria-label="Sort entries"
+            >
+              <option value="createdAt-desc">Newest First</option>
+              <option value="createdAt-asc">Oldest First</option>
+              <option value="modifiedAt-desc">Recently Mod</option>
+              <option value="modifiedAt-asc">Least Rec Mod</option>
+            </select>
           )}
         </div>
       </div>
