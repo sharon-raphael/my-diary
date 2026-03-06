@@ -103,37 +103,31 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
 
   return (
     <div className="entry-editor">
-      <div className="entry-editor-header">
-        <h2>{entry ? 'Edit Entry' : 'New Entry'}</h2>
-      </div>
-
       <div className="entry-editor-form">
-        <div className="form-row">
-          <div className="form-group flex-1">
-            <label htmlFor="entry-title">Title</label>
-            <input
-              id="entry-title"
-              type="text"
-              className="title-input"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter a title (or leave blank for auto-title)..."
-              maxLength={200}
-            />
-            <span className="char-count">{title.length}/200</span>
-          </div>
+        <div className="form-group date-picker-group compact-date-group">
+          <label htmlFor="entry-date">Date <span style={{ color: '#dc3545', marginLeft: '2px' }}>*</span></label>
+          <input
+            id="entry-date"
+            type="date"
+            className="date-input compact-date-input"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+        </div>
 
-          <div className="form-group date-picker-group">
-            <label htmlFor="entry-date">Date</label>
-            <input
-              id="entry-date"
-              type="date"
-              className="date-input"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="entry-title">Title</label>
+          <input
+            id="entry-title"
+            type="text"
+            className="title-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter a title (or leave blank for auto-title)..."
+            maxLength={200}
+          />
+          <span className="char-count">{title.length}/200</span>
         </div>
 
         <MoodSelector value={mood} onChange={setMood} />
