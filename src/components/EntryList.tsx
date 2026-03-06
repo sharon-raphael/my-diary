@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Entry, Mood, SortOrder } from '../types';
 import './EntryList.css';
+import './calendar/CalendarView.css';
 
 /**
  * Props for the EntryList component
@@ -138,35 +139,44 @@ export function EntryList({
 
   return (
     <div className="entry-list">
-      <div className="calendar-header" style={{ marginBottom: '24px' }}>
-        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>Journal Entries</h2>
+      <div className="calendar-header">
+        <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#2c3e50' }}>Journal Entries</h2>
 
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className="calendar-navigation" style={{ background: 'transparent', boxShadow: 'none' }}>
           {onSearchChange && (
-            <div className="search-bar" style={{ flex: '1 1 250px' }}>
+            <div className="search-bar" style={{ display: 'flex', alignItems: 'center' }}>
               <input
                 type="text"
-                className="search-input"
                 placeholder="Search entries..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
+                style={{
+                  background: 'linear-gradient(135deg, #fdfdfd, #f0f4f8)',
+                  border: '1px solid #e1e8ed',
+                  padding: '10px 16px',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: '#2c3e50',
+                  borderRadius: '12px',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  outline: 'none',
+                  minWidth: '250px'
+                }}
               />
             </div>
           )}
 
           {onSortChange && (
-            <div className="sort-control" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <label htmlFor="sort-select" className="sort-label">Sort by:</label>
+            <div className="calendar-header-selectors">
               <select
-                id="sort-select"
-                className="sort-select"
                 value={sortOrder}
                 onChange={(e) => onSortChange(e.target.value as SortOrder)}
+                aria-label="Sort entries"
               >
                 <option value="createdAt-desc">Newest First</option>
                 <option value="createdAt-asc">Oldest First</option>
-                <option value="modifiedAt-desc">Recently Modified</option>
-                <option value="modifiedAt-asc">Least Recently Modified</option>
+                <option value="modifiedAt-desc">Recently Mod</option>
+                <option value="modifiedAt-asc">Least Rec Mod</option>
               </select>
             </div>
           )}

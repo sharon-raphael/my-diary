@@ -1,8 +1,9 @@
 .entry-list {
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .entry-list-header {
