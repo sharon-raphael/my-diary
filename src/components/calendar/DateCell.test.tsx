@@ -1,6 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { DateCell } from './DateCell';
+import type { Entry } from '../../types';
+
+const createMockEntry = (id: string): Entry => ({
+  id,
+  title: 'Test Entry',
+  date: '2024-01-15',
+  content: 'Content',
+  createdAt: 0,
+  lastModifiedAt: 0,
+  mood: null,
+  tags: [],
+  version: 1,
+});
 
 describe('DateCell', () => {
   const mockOnClick = vi.fn();
@@ -16,7 +29,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -30,7 +43,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -46,7 +59,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={false}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -62,7 +75,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={true}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -77,7 +90,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -92,7 +105,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -107,7 +120,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={1}
+        entries={[createMockEntry('1')]}
         onClick={mockOnClick}
       />
     );
@@ -122,7 +135,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={1}
+        entries={[createMockEntry('1')]}
         onClick={mockOnClick}
       />
     );
@@ -137,7 +150,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={3}
+        entries={[createMockEntry('1'), createMockEntry('2'), createMockEntry('3')]}
         onClick={mockOnClick}
       />
     );
@@ -151,7 +164,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -169,7 +182,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -187,7 +200,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -205,7 +218,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -222,7 +235,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -237,7 +250,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -252,7 +265,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -267,7 +280,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={1}
+        entries={[createMockEntry('1')]}
         onClick={mockOnClick}
       />
     );
@@ -282,7 +295,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={5}
+        entries={[createMockEntry('1'), createMockEntry('2'), createMockEntry('3'), createMockEntry('4'), createMockEntry('5')]}
         onClick={mockOnClick}
       />
     );
@@ -297,7 +310,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={2}
+        entries={[createMockEntry('1'), createMockEntry('2')]}
         onClick={mockOnClick}
       />
     );
@@ -312,7 +325,7 @@ describe('DateCell', () => {
         date={testDate}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={99}
+        entries={Array.from({ length: 99 }).map((_, i) => createMockEntry(String(i)))}
         onClick={mockOnClick}
       />
     );
@@ -327,7 +340,7 @@ describe('DateCell', () => {
         date={firstDay}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );
@@ -342,7 +355,7 @@ describe('DateCell', () => {
         date={lastDay}
         isCurrentMonth={true}
         isToday={false}
-        entryCount={0}
+        entries={[]}
         onClick={mockOnClick}
       />
     );

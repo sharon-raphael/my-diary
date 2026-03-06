@@ -1,3 +1,8 @@
+import React, { useEffect, useState } from 'react';
+import type { Entry } from '../../types';
+import { getMoodOption } from '../MoodSelector';
+import { mediaService } from '../../services/MediaService';
+
 /**
  * Props for DateCell component
  */
@@ -5,7 +10,7 @@ export interface DateCellProps {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
-  entryCount: number;
+  entries: Entry[];
   onClick: (date: Date) => void;
 }
 
@@ -18,11 +23,33 @@ export function DateCell({
   date,
   isCurrentMonth,
   isToday,
-  entryCount,
+  entries,
   onClick,
 }: DateCellProps) {
   const dayNumber = date.getDate();
-  
+  const entryCount = entries.length;
+  const firstEntry = entryCount > 0 ? entries[0] : null;
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    if (firstEntry?.media && firstEntry.media.length > 0) {
+      // Find the first image
+      const imageMedia = firstEntry.media.find(m => m.type === 'image') || firstEntry.media[0];
+      mediaService.getMediaUrl(imageMedia.id).then((url) => {
+        if (active && url) {
+          setPreviewUrl(url);
+        }
+      });
+    } else {
+      setPreviewUrl(null);
+    }
+    return () => {
+      active = false;
+    };
+  }, [firstEntry]);
+
   // Build CSS classes based on state
   const classNames = [
     'date-cell',
@@ -30,12 +57,12 @@ export function DateCell({
     isToday ? 'today' : '',
     entryCount > 0 ? 'has-entries' : '',
   ].filter(Boolean).join(' ');
-  
+
   // Handle click events
   const handleClick = () => {
     onClick(date);
   };
-  
+
   // Handle keyboard activation (Enter or Space)
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -43,7 +70,7 @@ export function DateCell({
       onClick(date);
     }
   };
-  
+
   // Generate ARIA label for accessibility
   const ariaLabel = (() => {
     const dateStr = date.toLocaleDateString('en-US', {
@@ -51,7 +78,7 @@ export function DateCell({
       day: 'numeric',
       year: 'numeric',
     });
-    
+
     if (entryCount === 0) {
       return dateStr;
     } else if (entryCount === 1) {
@@ -60,7 +87,9 @@ export function DateCell({
       return `${dateStr}, ${entryCount} entries`;
     }
   })();
-  
+
+  const moodOption = firstEntry?.mood ? getMoodOption(firstEntry.mood) : null;
+
   return (
     <div
       className={classNames}
@@ -71,6 +100,21 @@ export function DateCell({
       aria-label={ariaLabel}
     >
       <span className="date-number">{dayNumber}</span>
+
+      {firstEntry && (
+        <div className="date-cell-preview">
+          {previewUrl && (
+            <div className="preview-image-container">
+              <img src={previewUrl} alt="Entry preview" className="preview-image" />
+            </div>
+          )}
+          <div className="preview-content">
+            {moodOption && <span className="preview-mood">{moodOption.emoji}</span>}
+            <span className="preview-title">{firstEntry.title || 'Untitled'}</span>
+          </div>
+        </div>
+      )}
+
       {entryCount > 0 && (
         <span className="entry-indicator">
           {entryCount > 1 && (

@@ -30,10 +30,13 @@ export function CalendarGrid({
   const gridCells = generateCalendarGrid(month, year);
 
   // Map entries to dates for quick lookup
-  const entriesByDate: Record<string, number> = {};
+  const entriesByDate: Record<string, Entry[]> = {};
   entries.forEach((entry) => {
     const key = entry.date;
-    entriesByDate[key] = (entriesByDate[key] || 0) + 1;
+    if (!entriesByDate[key]) {
+      entriesByDate[key] = [];
+    }
+    entriesByDate[key].push(entry);
   });
 
   return (
@@ -42,7 +45,7 @@ export function CalendarGrid({
       <div className="calendar-dates">
         {gridCells.map((cell, index) => {
           const dateKey = getDateKey(cell.date);
-          const entryCount = entriesByDate[dateKey] || 0;
+          const dayEntries = entriesByDate[dateKey] || [];
           const isToday = isSameDay(cell.date, currentDate);
 
           return (
@@ -51,7 +54,7 @@ export function CalendarGrid({
               date={cell.date}
               isCurrentMonth={cell.isCurrentMonth}
               isToday={isToday}
-              entryCount={entryCount}
+              entries={dayEntries}
               onClick={onDateClick}
             />
           );
