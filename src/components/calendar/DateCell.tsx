@@ -103,15 +103,33 @@ export function DateCell({
 
       {firstEntry && (
         <div className="date-cell-preview">
-          {previewUrl && (
-            <div className="preview-image-container">
-              <img src={previewUrl} alt="Entry preview" className="preview-image" />
+          {entryCount === 1 ? (
+            <>
+              {previewUrl && (
+                <div className="preview-image-container">
+                  <img src={previewUrl} alt="Entry preview" className="preview-image" />
+                </div>
+              )}
+              <div className="preview-content single-entry-preview">
+                {moodOption && <span className="preview-mood">{moodOption.emoji}</span>}
+                <span className="preview-title">{firstEntry.title || 'Untitled'}</span>
+              </div>
+            </>
+          ) : (
+            <div className="multi-entry-preview">
+              {entries.slice(0, 2).map((entry) => {
+                const mOpt = entry.mood ? getMoodOption(entry.mood) : null;
+                const hasMedia = entry.media && entry.media.length > 0;
+                return (
+                  <div key={entry.id} className="preview-content multi-entry-row">
+                    {hasMedia && <span className="preview-attachment-icon">📎</span>}
+                    <span className="preview-title">{entry.title || 'Untitled'}</span>
+                    {mOpt && <span className="preview-mood right-side">{mOpt.emoji}</span>}
+                  </div>
+                );
+              })}
             </div>
           )}
-          <div className={`preview-content ${entryCount === 1 ? 'single-entry-preview' : ''}`}>
-            {moodOption && <span className="preview-mood">{moodOption.emoji}</span>}
-            <span className="preview-title">{firstEntry.title || 'Untitled'}</span>
-          </div>
         </div>
       )}
 

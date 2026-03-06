@@ -403,6 +403,36 @@
   width: 100%;
 }
 
+.multi-entry-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.multi-entry-row {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary, #f8f9fa);
+  padding: 4px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.preview-attachment-icon {
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.multi-entry-row .preview-title {
+  flex: 1;
+  text-align: left;
+}
+
+.multi-entry-row .right-side {
+  margin-left: auto;
+}
+
 /* Entry Indicator */
 .entry-indicator {
   position: absolute;

@@ -26,14 +26,14 @@ const MOOD_OPTIONS: MoodOption[] = [
 export function MoodSelector({ value, onChange }: MoodSelectorProps) {
   return (
     <div className="mood-selector">
-      <label className="mood-label">Mood</label>
+      <label className="mood-label">Mood <span style={{ color: '#dc3545', marginLeft: '2px' }}>*</span></label>
       <div className="mood-options">
         {MOOD_OPTIONS.map((option) => (
           <button
             key={option.value}
             type="button"
             className={`mood-option ${value === option.value ? 'selected' : ''}`}
-            onClick={() => onChange(value === option.value ? null : option.value)}
+            onClick={() => onChange(option.value)}
             style={{ borderColor: value === option.value ? option.color : undefined }}
             title={option.label}
             aria-label={`Select ${option.label} mood`}
@@ -44,16 +44,6 @@ export function MoodSelector({ value, onChange }: MoodSelectorProps) {
           </button>
         ))}
       </div>
-      {value && (
-        <button
-          type="button"
-          className="mood-clear"
-          onClick={() => onChange(null)}
-          aria-label="Clear mood"
-        >
-          Clear mood
-        </button>
-      )}
     </div>
   );
 }

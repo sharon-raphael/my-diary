@@ -63,6 +63,11 @@ export function EntryEditor({ entry, initialDate, onSave, onCancel }: EntryEdito
   }, [title, date, editorState, mood, tags, media, entry, initialDate]);
 
   const handleSave = async () => {
+    if (!mood) {
+      alert('Please select a mood for this entry before saving.');
+      return;
+    }
+
     const serializedContent = RichTextService.serializeContent(editorState);
     const plainText = RichTextService.getPlainText(editorState);
 

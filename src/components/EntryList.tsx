@@ -190,7 +190,6 @@ export function EntryList({
               aria-label={`Entry: ${entry.title}`}
             >
               <div className="entry-card-content">
-                <ListEntryThumbnail entry={entry} />
                 <div className="entry-header">
                   <h3 className="entry-title">
                     {entry.mood && (
@@ -208,6 +207,8 @@ export function EntryList({
                     {formatDate(entry.createdAt)}
                   </span>
                 </div>
+
+                <ListEntryThumbnail entry={entry} />
 
                 {deleteConfirmId === entry.id ? (
                   <div className="delete-confirmation">
