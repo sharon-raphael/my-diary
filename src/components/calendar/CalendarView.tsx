@@ -172,6 +172,8 @@ export function CalendarView({
         onPreviousMonth={handlePreviousMonth}
         onNextMonth={handleNextMonth}
         onCurrentMonth={handleCurrentMonth}
+        onMonthChange={setSelectedMonth}
+        onYearChange={setSelectedYear}
       />
       <CalendarGrid
         month={selectedMonth}

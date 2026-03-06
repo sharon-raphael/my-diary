@@ -1,57 +1,118 @@
 .calendar-view {
-  padding: 20px;
+  padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .calendar-header {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.calendar-header h1 {
-  margin: 0 0 15px 0;
-  font-size: 24px;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.calendar-header-selectors {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.calendar-header select {
+  appearance: none;
+  background: linear-gradient(135deg, #fdfdfd, #f0f4f8);
+  border: 1px solid #e1e8ed;
+  padding: 10px 36px 10px 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, repeat;
+  background-position: right 12px top 50%, 0 0;
+  background-size: .65em auto, 100%;
+  transition: all 0.3s ease;
+}
+
+.calendar-header select:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-header select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .calendar-navigation {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  background: white;
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .calendar-navigation button {
   padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  background-color: transparent;
+  color: #64748b;
+  border: 1px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .calendar-navigation button:hover {
-  background-color: #0056b3;
+  background-color: #f1f5f9;
+  color: #0f172a;
 }
 
 .calendar-navigation button:active {
-  background-color: #004085;
+  background-color: #e2e8f0;
+  transform: scale(0.97);
 }
 
-.month-year-display {
-  font-size: 18px;
-  font-weight: 600;
-  min-width: 200px;
-  text-align: center;
+.calendar-navigation .today-button {
+  background-color: #6366f1;
+  color: white;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
 }
 
-.today-button {
-  margin-left: auto;
+.calendar-navigation .today-button:hover {
+  background-color: #4f46e5;
+  color: white;
 }
 
 .calendar-grid-container {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
 }
 
 /* Date Entry Modal */
@@ -61,7 +122,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,13 +132,13 @@
 
 .date-entry-modal {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 24px;
   max-width: 500px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .modal-header {
@@ -84,77 +146,89 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .modal-header h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
+  color: #0f172a;
+  font-weight: 700;
 }
 
 .modal-header button {
-  background: none;
+  background: #f1f5f9;
+  border-radius: 50%;
   border: none;
-  font-size: 28px;
+  font-size: 20px;
   cursor: pointer;
-  color: #6c757d;
+  color: #64748b;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
 }
 
 .modal-header button:hover {
-  color: #000;
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .modal-entry-item {
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-entry-item:hover {
-  background-color: #e9ecef;
+  background-color: white;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
 }
 
 .modal-entry-item h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 6px 0;
   font-size: 16px;
+  color: #1e293b;
+  font-weight: 600;
 }
 
 .modal-entry-item .entry-time {
   margin: 0;
   font-size: 14px;
-  color: #6c757d;
+  color: #64748b;
 }
 
 /* Weekday Headers */
 .weekday-headers {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .weekday-header {
   text-align: center;
-  font-weight: 600;
-  font-size: 14px;
-  color: #495057;
-  padding: 10px 0;
+  font-weight: 700;
+  font-size: 13px;
+  color: #94a3b8;
+  padding: 12px 0;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Calendar Grid */
@@ -165,7 +239,7 @@
 .calendar-dates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
+  gap: 12px;
 }
 
 /* Date Cell */
@@ -177,28 +251,34 @@
   align-items: center;
   justify-content: flex-start;
   padding: 8px;
-  background-color: white;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
+  background-color: #f8fafc;
+  border: 1px solid transparent;
+  border-radius: 14px;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   min-height: 0;
   min-width: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
 }
 
 .date-cell:hover {
-  background-color: #f8f9fa;
-  border-color: #adb5bd;
+  background-color: white;
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+  z-index: 2;
 }
 
 .date-cell:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .date-cell.adjacent-month {
   opacity: 0.4;
+  background-color: transparent;
 }
 
 .date-cell.current-month {
@@ -206,19 +286,34 @@
 }
 
 .date-cell.today {
-  background-color: #e7f3ff;
-  border-color: #007bff;
-  border-width: 2px;
-  font-weight: 600;
+  background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+  border-color: #3b82f6;
+  border-width: 1px;
 }
 
 .date-cell.today:hover {
-  background-color: #d0e9ff;
+  background: linear-gradient(135deg, #dbeafe, #bae6fd);
+}
+
+.date-cell.today .date-number {
+  color: #ffffff;
+  font-weight: 700;
+  background: #3b82f6;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .date-number {
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
   line-height: 1;
+  margin-bottom: 4px;
 }
 
 /* Date Cell Previews */
