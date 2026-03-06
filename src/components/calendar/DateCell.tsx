@@ -108,7 +108,7 @@ export function DateCell({
               <img src={previewUrl} alt="Entry preview" className="preview-image" />
             </div>
           )}
-          <div className="preview-content">
+          <div className={`preview-content ${entryCount === 1 ? 'single-entry-preview' : ''}`}>
             {moodOption && <span className="preview-mood">{moodOption.emoji}</span>}
             <span className="preview-title">{firstEntry.title || 'Untitled'}</span>
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { Entry, Mood, SortOrder } from '../types';
 import './EntryList.css';
 import './calendar/CalendarView.css';
+import { ListEntryThumbnail } from './ListEntryThumbnail';
 
 /**
  * Props for the EntryList component
@@ -191,6 +192,7 @@ export function EntryList({
               aria-label={`Entry: ${entry.title}`}
             >
               <div className="entry-card-content">
+                <ListEntryThumbnail entry={entry} />
                 <div className="entry-header">
                   <h3 className="entry-title">
                     {entry.mood && (
