@@ -135,7 +135,6 @@ export function CalendarView({
     console.error('CalendarView error:', error);
     return (
       <div className="calendar-view">
-        <h1>Calendar View</h1>
         <div className="calendar-error">
           <div className="error-message">
             <h2>Failed to load journal entries</h2>
@@ -155,7 +154,6 @@ export function CalendarView({
   if (loading) {
     return (
       <div className="calendar-view">
-        <h1>Calendar View</h1>
         <div className="calendar-loading">
           <p>Loading entries...</p>
         </div>
@@ -165,7 +163,6 @@ export function CalendarView({
 
   return (
     <div className="calendar-view">
-      <h1>Calendar View</h1>
       <CalendarHeader
         month={selectedMonth}
         year={selectedYear}

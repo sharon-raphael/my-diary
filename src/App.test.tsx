@@ -8,7 +8,7 @@ describe('App', () => {
       render(<App />);
     });
 
-    expect(screen.getByText('Calendar View')).toBeInTheDocument();
+    expect(screen.getByLabelText('Previous month')).toBeInTheDocument();
   });
 
   it('should wrap content with AppProvider', async () => {
