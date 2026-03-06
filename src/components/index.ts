@@ -6,3 +6,4 @@ export { SearchBar } from './SearchBar';
 export { MoodSelector, getMoodOption, MOOD_OPTIONS } from './MoodSelector';
 export { TagInput } from './TagInput';
 export { Navigation } from './Navigation';
+export { SettingsModal } from './SettingsModal';

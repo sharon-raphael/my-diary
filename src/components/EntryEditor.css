@@ -128,8 +128,70 @@
   background-color: #e0e0e0;
 }
 
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.date-picker-group {
+  flex-shrink: 0;
+  min-width: 220px;
+}
+
+.date-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2c3e50;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 4px;
+  background-color: transparent;
+  color: #646cff;
+  opacity: 0.6;
+  transition: all 0.2s;
+  font-size: 1.25rem;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.date-input:focus,
+.date-input:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  background: white;
+}
+
 /* Responsive design for mobile */
 @media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .date-picker-group {
+    width: 100%;
+    min-width: unset;
+  }
+
   .entry-editor {
     padding: 1rem;
   }

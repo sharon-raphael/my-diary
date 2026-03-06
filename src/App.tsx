@@ -3,7 +3,7 @@ import { AppProvider, useAppContext } from './contexts/AppContext';
 import { useEntries } from './hooks/useEntries';
 import { useSearch } from './hooks/useSearch';
 import { useSort } from './hooks/useSort';
-import { EntryList, EntryEditor, EntryViewer, Navigation } from './components';
+import { EntryList, EntryEditor, EntryViewer, Navigation, SettingsModal } from './components';
 import { CalendarView } from './components/calendar';
 import { getCalendarDate } from './utils/dateFormatter';
 import type { Entry } from './types';
@@ -14,13 +14,14 @@ import './App.css';
  */
 function AppContent() {
   const { currentView, selectedEntryId, setCurrentView, setSelectedEntryId } = useAppContext();
-  const { entries, loading, error, createEntry, updateEntry, deleteEntry, getEntry } = useEntries();
+  const { entries, loading, error, createEntry, updateEntry, deleteEntry, getEntry, exportEntries, importEntries } = useEntries();
   const { filteredEntries, query, setQuery } = useSearch(entries);
   const { sortedEntries, sortOrder, setSortOrder } = useSort(filteredEntries);
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [initialEditorDate, setInitialEditorDate] = useState<string | undefined>(undefined);
   const [previousBaseView, setPreviousBaseView] = useState<'list' | 'calendar'>('calendar');
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   /**
    * Show notification
@@ -203,11 +204,18 @@ function AppContent() {
         </div>
       )}
       <Navigation
-        onCreateEntry={handleCreateEntry}
         currentView={currentView}
         onViewChange={setCurrentView}
+        onSettings={() => setShowSettingsModal(true)}
       />
       {renderView()}
+      {showSettingsModal && (
+        <SettingsModal
+          onClose={() => setShowSettingsModal(false)}
+          onExport={exportEntries}
+          onImport={importEntries}
+        />
+      )}
     </div>
   );
 }
