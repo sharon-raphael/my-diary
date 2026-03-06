@@ -43,7 +43,7 @@ function AppContent() {
   const handleDeleteEntry = async (entryId: string) => {
     try {
       await deleteEntry(entryId);
-      setCurrentView('list');
+      setCurrentView('calendar');
       setSelectedEntryId(null);
       showNotification('Entry deleted successfully');
     } catch (error) {
@@ -81,7 +81,7 @@ function AppContent() {
         await createEntry(entryData);
         showNotification('Entry created successfully');
       }
-      setCurrentView('list');
+      setCurrentView('calendar');
       setSelectedEntryId(null);
       setInitialEditorDate(undefined);
     } catch (error) {
@@ -94,7 +94,7 @@ function AppContent() {
    * Handles cancel button in editor
    */
   const handleCancelEdit = () => {
-    setCurrentView('list');
+    setCurrentView('calendar');
     setSelectedEntryId(null);
     setInitialEditorDate(undefined);
   };
@@ -110,7 +110,7 @@ function AppContent() {
    * Handles back button in viewer
    */
   const handleBackToList = () => {
-    setCurrentView('list');
+    setCurrentView('calendar');
     setSelectedEntryId(null);
   };
 
@@ -140,7 +140,7 @@ function AppContent() {
       case 'viewer':
         const entryToView = selectedEntryId ? getEntry(selectedEntryId) : null;
         if (!entryToView) {
-          setCurrentView('list');
+          setCurrentView('calendar');
           setSelectedEntryId(null);
           return null;
         }

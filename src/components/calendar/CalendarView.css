@@ -175,13 +175,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 8px;
   background-color: white;
   border: 1px solid #dee2e6;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
 }
 
 .date-cell:hover {
