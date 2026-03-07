@@ -231,7 +231,7 @@
 .weekday-headers {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
+  gap: 4px;
   margin-bottom: 12px;
 }
 
@@ -253,7 +253,7 @@
 .calendar-dates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
+  gap: 4px;
 }
 
 /* Date Cell */
@@ -335,11 +335,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   width: 100%;
   height: 100%;
   margin-top: 4px;
   overflow: hidden;
+  flex: 1;
 }
 
 .preview-image-container {

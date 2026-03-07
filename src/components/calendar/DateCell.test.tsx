@@ -319,20 +319,6 @@ describe('DateCell', () => {
     expect(dateCell?.classList.contains('has-entries')).toBe(true);
   });
 
-  it('should handle edge case of very high entry count', () => {
-    render(
-      <DateCell
-        date={testDate}
-        isCurrentMonth={true}
-        isToday={false}
-        entries={Array.from({ length: 99 }).map((_, i) => createMockEntry(String(i)))}
-        onClick={mockOnClick}
-      />
-    );
-
-    expect(screen.getByText('99')).toBeDefined();
-  });
-
   it('should render correctly for first day of month', () => {
     const firstDay = new Date(2024, 0, 1);
     render(

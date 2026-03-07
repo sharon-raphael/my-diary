@@ -132,14 +132,6 @@ export function DateCell({
           )}
         </div>
       )}
-
-      {entryCount > 0 && (
-        <span className="entry-indicator">
-          {entryCount > 1 && (
-            <span className="entry-count">{entryCount}</span>
-          )}
-        </span>
-      )}
     </div>
   );
 }
