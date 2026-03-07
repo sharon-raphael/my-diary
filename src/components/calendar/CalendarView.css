@@ -405,6 +405,30 @@
   width: 100%;
 }
 
+.single-entry-preview-media {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2px 4px;
+  background-color: var(--bg-secondary, #f8f9fa);
+  border-radius: 4px;
+}
+
+.single-entry-preview-media .preview-mood {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.single-entry-preview-media .preview-title {
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  text-align: left;
+}
+
 .multi-entry-preview {
   display: flex;
   flex-direction: column;
