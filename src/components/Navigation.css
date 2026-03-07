@@ -67,6 +67,13 @@
   flex-wrap: wrap;
 }
 
+.nav-actions .btn {
+  min-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sort-control {
   display: flex;
   align-items: center;
