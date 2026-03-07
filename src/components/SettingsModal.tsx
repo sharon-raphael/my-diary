@@ -5,9 +5,10 @@ interface SettingsModalProps {
     onClose: () => void;
     onExport: () => void;
     onImport: (file: File) => void;
+    onDeleteAll: () => void;
 }
 
-export function SettingsModal({ onClose, onExport, onImport }: SettingsModalProps) {
+export function SettingsModal({ onClose, onExport, onImport, onDeleteAll }: SettingsModalProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImportClick = () => {
@@ -38,6 +39,15 @@ export function SettingsModal({ onClose, onExport, onImport }: SettingsModalProp
                     <button className="settings-action" onClick={handleImportClick}>
                         <span className="settings-action-icon">📥</span>
                         <span>Import Entries</span>
+                    </button>
+                    <button className="settings-action delete-action" onClick={() => {
+                        if (window.confirm("Are you sure you want to delete all entries? This action cannot be undone.")) {
+                            onDeleteAll();
+                            onClose();
+                        }
+                    }}>
+                        <span className="settings-action-icon">🗑️</span>
+                        <span style={{ color: '#dc3545' }}>Delete All Entries</span>
                     </button>
 
                     <input

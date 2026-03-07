@@ -21,6 +21,8 @@ export interface UseEntriesReturn {
   updateEntry: (id: string, updates: Partial<Entry>) => Promise<Entry>;
   /** Deletes an entry */
   deleteEntry: (id: string) => Promise<void>;
+  /** Deletes all entries */
+  deleteAllEntries: () => Promise<void>;
   /** Gets a single entry by ID */
   getEntry: (id: string) => Entry | undefined;
   /** Exports all entries as JSON or ZIP */
@@ -149,6 +151,30 @@ export function useEntries(): UseEntriesReturn {
   }, []);
 
   /**
+   * Deletes all entries from storage.
+   */
+  const deleteAllEntries = useCallback(async (): Promise<void> => {
+    try {
+      if (entries.some(e => e.media && e.media.length > 0)) {
+        for (const entry of entries) {
+          if (entry.media) {
+            for (const m of entry.media) {
+              await mediaService.deleteMedia(m.id);
+            }
+          }
+        }
+      }
+      await storageService.clearAll();
+      setEntries([]);
+      setError(null);
+    } catch (err) {
+      const errorObj = err instanceof Error ? err : new Error('Failed to delete all entries');
+      setError(errorObj);
+      throw errorObj;
+    }
+  }, [entries]);
+
+  /**
    * Gets a single entry by ID.
    * 
    * @param id - ID of the entry to retrieve
@@ -264,6 +290,7 @@ export function useEntries(): UseEntriesReturn {
     createEntry,
     updateEntry,
     deleteEntry,
+    deleteAllEntries,
     getEntry,
     exportEntries,
     importEntries

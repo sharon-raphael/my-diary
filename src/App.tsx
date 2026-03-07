@@ -14,7 +14,7 @@ import './App.css';
  */
 function AppContent() {
   const { currentView, selectedEntryId, setCurrentView, setSelectedEntryId } = useAppContext();
-  const { entries, loading, error, createEntry, updateEntry, deleteEntry, getEntry, exportEntries, importEntries } = useEntries();
+  const { entries, loading, error, createEntry, updateEntry, deleteEntry, deleteAllEntries, getEntry, exportEntries, importEntries } = useEntries();
   const { filteredEntries, query, setQuery } = useSearch(entries);
   const { sortedEntries, sortOrder, setSortOrder } = useSort(filteredEntries);
 
@@ -63,6 +63,21 @@ function AppContent() {
   const handleRetryLoadEntries = () => {
     // Reload the page to trigger useEntries hook again
     window.location.reload();
+  };
+
+  /**
+   * Handles deleting all entries
+   */
+  const handleDeleteAllEntries = async () => {
+    try {
+      await deleteAllEntries();
+      setCurrentView('calendar');
+      setSelectedEntryId(null);
+      showNotification('All entries deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete all entries:', error);
+      showNotification('Failed to delete all entries', 'error');
+    }
   };
 
   /**
@@ -218,6 +233,7 @@ function AppContent() {
           onClose={() => setShowSettingsModal(false)}
           onExport={exportEntries}
           onImport={importEntries}
+          onDeleteAll={handleDeleteAllEntries}
         />
       )}
     </div>
