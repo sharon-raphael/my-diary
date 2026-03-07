@@ -43,7 +43,7 @@ export function SettingsModal({ onClose, onExport, onImport }: SettingsModalProp
                     <input
                         ref={fileInputRef}
                         type="file"
-                        accept=".json"
+                        accept=".json,.zip"
                         onChange={handleFileChange}
                         style={{ display: 'none' }}
                         aria-label="Select file to import"

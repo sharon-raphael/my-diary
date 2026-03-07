@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import JSZip from 'jszip';
 import type { Entry } from '../types/entry';
 import { storageService } from '../services/StorageService';
+import { mediaService } from '../services/MediaService';
 
 /**
  * Return type for the useEntries hook.
@@ -21,8 +23,8 @@ export interface UseEntriesReturn {
   deleteEntry: (id: string) => Promise<void>;
   /** Gets a single entry by ID */
   getEntry: (id: string) => Entry | undefined;
-  /** Exports all entries as JSON */
-  exportEntries: () => void;
+  /** Exports all entries as JSON or ZIP */
+  exportEntries: () => Promise<void>;
   /** Imports entries from a file */
   importEntries: (file: File) => Promise<void>;
 }
@@ -80,7 +82,7 @@ export function useEntries(): UseEntriesReturn {
       await storageService.saveEntry(newEntry);
       setEntries(prev => [...prev, newEntry]);
       setError(null);
-      
+
       return newEntry;
     } catch (err) {
       const errorObj = err instanceof Error ? err : new Error('Failed to create entry');
@@ -103,7 +105,7 @@ export function useEntries(): UseEntriesReturn {
   ): Promise<Entry> => {
     try {
       const existingEntry = entries.find(e => e.id === id);
-      
+
       if (!existingEntry) {
         throw new Error(`Entry with id ${id} not found`);
       }
@@ -119,7 +121,7 @@ export function useEntries(): UseEntriesReturn {
       await storageService.saveEntry(updatedEntry);
       setEntries(prev => prev.map(e => e.id === id ? updatedEntry : e));
       setError(null);
-      
+
       return updatedEntry;
     } catch (err) {
       const errorObj = err instanceof Error ? err : new Error('Failed to update entry');
@@ -157,29 +159,46 @@ export function useEntries(): UseEntriesReturn {
   }, [entries]);
 
   /**
-   * Exports all entries as a JSON file download.
+   * Exports all entries as a ZIP archive if media exists, or JSON.
    */
-  const exportEntries = useCallback(() => {
+  const exportEntries = useCallback(async (): Promise<void> => {
     try {
+      const zip = new JSZip();
       const jsonData = storageService.exportData();
-      const blob = new Blob([jsonData], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      
-      // Generate filename with current date
+      zip.file('journal-data.json', jsonData);
+
+      const container = JSON.parse(jsonData);
+      const entriesToExport = container.entries || [];
+      const mediaFolder = zip.folder('media');
+
+      if (mediaFolder) {
+        for (const entry of entriesToExport) {
+          if (entry.media && entry.media.length > 0) {
+            for (const media of entry.media) {
+              const blob = await mediaService.loadMedia(media.id);
+              if (blob) {
+                mediaFolder.file(media.id, blob);
+              }
+            }
+          }
+        }
+      }
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(content);
+
       const date = new Date().toISOString().split('T')[0];
-      const filename = `journal-export-${date}.json`;
-      
-      // Create download link and trigger download
+      const filename = `journal-export-${date}.zip`;
+
       const link = document.createElement('a');
       link.href = url;
       link.download = filename;
       document.body.appendChild(link);
       link.click();
-      
-      // Cleanup
+
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      
+
       setError(null);
     } catch (err) {
       const errorObj = err instanceof Error ? err : new Error('Failed to export entries');
@@ -189,21 +208,47 @@ export function useEntries(): UseEntriesReturn {
   }, []);
 
   /**
-   * Imports entries from a JSON file.
-   * 
-   * @param file - File object containing JSON data
-   * @returns Promise that resolves when import is complete
+   * Imports entries from a ZIP archive or JSON file.
    */
   const importEntries = useCallback(async (file: File): Promise<void> => {
     try {
-      const text = await file.text();
-      const importedEntries = await storageService.importData(text);
-      
-      // Reload all entries from storage to get the merged result
+      let importedEntries = [];
+
+      if (file.name.endsWith('.zip')) {
+        const zip = await JSZip.loadAsync(file);
+        const jsonFile = zip.file('journal-data.json');
+
+        if (!jsonFile) {
+          throw new Error('Invalid backup file: missing journal-data.json');
+        }
+
+        const jsonData = await jsonFile.async('string');
+        importedEntries = await storageService.importData(jsonData);
+
+        const mediaFolder = zip.folder('media');
+        if (mediaFolder) {
+          const files = Object.keys(mediaFolder.files);
+          for (const filename of files) {
+            if (!mediaFolder.files[filename].dir) {
+              const fileData = await mediaFolder.files[filename].async('blob');
+              const id = filename.split('/').pop();
+              if (id) {
+                await mediaService.saveMedia(id, fileData);
+              }
+            }
+          }
+        }
+      } else if (file.name.endsWith('.json')) {
+        const text = await file.text();
+        importedEntries = await storageService.importData(text);
+      } else {
+        throw new Error('Unsupported file format. Please upload a .zip or .json file.');
+      }
+
       const allEntries = await storageService.loadEntries();
       setEntries(allEntries);
       setError(null);
-      
+
       console.log(`Successfully imported ${importedEntries.length} entries`);
     } catch (err) {
       const errorObj = err instanceof Error ? err : new Error('Failed to import entries');
