@@ -21,6 +21,18 @@
     margin: 0;
 }
 
+.gallery-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gallery-sort-label {
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 600;
+}
+
 .gallery-sort-select {
     padding: 0.5rem 1rem;
     border-radius: 8px;

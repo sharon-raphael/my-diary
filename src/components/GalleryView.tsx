@@ -92,16 +92,18 @@ export function GalleryView({ entries }: GalleryViewProps) {
             <div className="gallery-header-container">
                 <h2 className="gallery-title">Media Gallery</h2>
                 <div className="gallery-controls">
+                    <label htmlFor="gallery-sort" className="gallery-sort-label">Sort By:</label>
                     <select
+                        id="gallery-sort"
                         className="gallery-sort-select"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as any)}
                         aria-label="Sort media"
                     >
-                        <option value="date-desc">Sory By: Newest First</option>
-                        <option value="date-asc">Sory By: Oldest First</option>
-                        <option value="size-desc">Sory By: Largest Size</option>
-                        <option value="size-asc">Sory By: Smallest Size</option>
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="size-desc">Largest Size</option>
+                        <option value="size-asc">Smallest Size</option>
                     </select>
                 </div>
             </div>
