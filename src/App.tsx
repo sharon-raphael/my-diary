@@ -3,7 +3,7 @@ import { AppProvider, useAppContext } from './contexts/AppContext';
 import { useEntries } from './hooks/useEntries';
 import { useSearch } from './hooks/useSearch';
 import { useSort } from './hooks/useSort';
-import { EntryList, EntryEditor, EntryViewer, Navigation, SettingsModal } from './components';
+import { EntryList, EntryEditor, EntryViewer, Navigation, SettingsModal, GalleryView } from './components';
 import { CalendarView } from './components/calendar';
 import { getCalendarDate } from './utils/dateFormatter';
 import type { Entry } from './types';
@@ -20,7 +20,7 @@ function AppContent() {
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [initialEditorDate, setInitialEditorDate] = useState<string | undefined>(undefined);
-  const [previousBaseView, setPreviousBaseView] = useState<'list' | 'calendar'>('calendar');
+  const [previousBaseView, setPreviousBaseView] = useState<'list' | 'calendar' | 'gallery'>('calendar');
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   /**
@@ -35,7 +35,7 @@ function AppContent() {
    * Handles entry selection - navigates to viewer
    */
   const handleSelectEntry = (entryId: string) => {
-    if (currentView === 'list' || currentView === 'calendar') {
+    if (currentView === 'list' || currentView === 'calendar' || currentView === 'gallery') {
       setPreviousBaseView(currentView);
     }
     setSelectedEntryId(entryId);
@@ -69,7 +69,7 @@ function AppContent() {
    * Handles create entry button click
    */
   const handleCreateEntry = (date?: Date) => {
-    if (currentView === 'list' || currentView === 'calendar') {
+    if (currentView === 'list' || currentView === 'calendar' || currentView === 'gallery') {
       setPreviousBaseView(currentView);
     }
     setSelectedEntryId(null);
@@ -178,6 +178,10 @@ function AppContent() {
             error={error}
             onRetry={handleRetryLoadEntries}
           />
+        );
+      case 'gallery':
+        return (
+          <GalleryView entries={entries} />
         );
       default:
         return (

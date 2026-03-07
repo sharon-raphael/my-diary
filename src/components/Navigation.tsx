@@ -21,13 +21,22 @@ export function Navigation({
       <div className="nav-header">
         <h1 className="app-title">My Diary</h1>
 
-        <div className="nav-actions">          <button
-          className="btn btn-secondary"
-          onClick={() => onViewChange(currentView === 'list' ? 'calendar' : 'list')}
-          aria-label="Toggle view"
-        >
-          {currentView === 'list' ? '📅 Calendar' : '📋 List'}
-        </button>
+        <div className="nav-actions">
+          <button
+            className="btn btn-secondary"
+            onClick={() => onViewChange(currentView === 'gallery' ? 'calendar' : 'gallery')}
+            aria-label="Toggle gallery"
+          >
+            {currentView === 'gallery' ? '📅 Calendar' : '🖼️ Gallery'}
+          </button>
+
+          <button
+            className="btn btn-secondary"
+            onClick={() => onViewChange(currentView === 'list' ? 'calendar' : 'list')}
+            aria-label="Toggle view"
+          >
+            {currentView === 'list' ? '📅 Calendar' : '📋 List'}
+          </button>
 
           <button
             className="btn btn-secondary"

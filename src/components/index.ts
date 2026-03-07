@@ -7,3 +7,4 @@ export { MoodSelector, getMoodOption, MOOD_OPTIONS } from './MoodSelector';
 export { TagInput } from './TagInput';
 export { Navigation } from './Navigation';
 export { SettingsModal } from './SettingsModal';
+export { GalleryView } from './GalleryView';

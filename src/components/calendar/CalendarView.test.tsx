@@ -33,7 +33,7 @@ describe('CalendarView', () => {
       </AppProvider>
     );
 
-    expect(screen.getByText('Calendar View')).toBeInTheDocument();
+    expect(screen.getByLabelText('Previous month')).toBeInTheDocument();
   });
 
   it('displays current month and year', () => {
@@ -239,7 +239,7 @@ describe('Empty State Handling', () => {
     expect(calendarGrid).toBeInTheDocument();
 
     // No entry indicators should be present
-    const entryIndicators = container.querySelectorAll('.entry-indicator');
+    const entryIndicators = container.querySelectorAll('.has-entries');
     expect(entryIndicators.length).toBe(0);
   });
 
@@ -318,7 +318,7 @@ describe('Empty State Handling', () => {
     expect(calendarGrid).toBeInTheDocument();
 
     // No entry indicators should be present in current month
-    const entryIndicators = container.querySelectorAll('.entry-indicator');
+    const entryIndicators = container.querySelectorAll('.has-entries');
     expect(entryIndicators.length).toBe(0);
 
     // Date cells should still be interactive
@@ -534,7 +534,7 @@ describe('Missing Entry Handling', () => {
     // Find today's date cell (it should have an entry indicator)
     const dateCells = container.querySelectorAll('[role="gridcell"]');
     const todayCell = Array.from(dateCells).find((cell) => {
-      return cell.querySelector('.entry-indicator') !== null;
+      return cell.classList.contains('has-entries');
     });
 
     expect(todayCell).toBeTruthy();
@@ -576,7 +576,7 @@ describe('Missing Entry Handling', () => {
     // Find today's date cell
     const dateCells = container.querySelectorAll('[role="gridcell"]');
     const todayCell = Array.from(dateCells).find((cell) => {
-      return cell.querySelector('.entry-indicator') !== null;
+      return cell.classList.contains('has-entries');
     });
 
     expect(todayCell).toBeTruthy();
@@ -618,7 +618,7 @@ describe('Missing Entry Handling', () => {
     // Find today's date cell
     const dateCells = container.querySelectorAll('[role="gridcell"]');
     const todayCell = Array.from(dateCells).find((cell) => {
-      return cell.querySelector('.entry-indicator') !== null;
+      return cell.classList.contains('has-entries');
     });
 
     expect(todayCell).toBeTruthy();
@@ -660,7 +660,7 @@ describe('Missing Entry Handling', () => {
     // Find today's date cell
     const dateCells = container.querySelectorAll('[role="gridcell"]');
     const todayCell = Array.from(dateCells).find((cell) => {
-      return cell.querySelector('.entry-indicator') !== null;
+      return cell.classList.contains('has-entries');
     });
 
     expect(todayCell).toBeTruthy();
@@ -708,7 +708,7 @@ describe('Missing Entry Handling', () => {
     );
 
     // Should have entry indicator
-    let entryIndicators = container.querySelectorAll('.entry-indicator');
+    let entryIndicators = container.querySelectorAll('.has-entries');
     expect(entryIndicators.length).toBeGreaterThan(0);
 
     // Rerender with empty entries
@@ -723,7 +723,7 @@ describe('Missing Entry Handling', () => {
     );
 
     // Entry indicators should be removed
-    entryIndicators = container.querySelectorAll('.entry-indicator');
+    entryIndicators = container.querySelectorAll('.has-entries');
     expect(entryIndicators.length).toBe(0);
   });
 });
