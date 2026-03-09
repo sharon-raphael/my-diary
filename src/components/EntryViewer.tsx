@@ -83,50 +83,37 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
       </div>
 
       <div className="entry-viewer-content">
-        <h1 className="entry-title">{entry.title}</h1>
+        <header className="article-header">
+          <h1 className="entry-title">{entry.title}</h1>
+          <div className="article-meta">
+            <span className="meta-date">{entry.date}</span>
 
-        <div className="entry-metadata">
-          <div className="metadata-item">
-            <span className="metadata-label">Journal Date:</span>
-            <span className="metadata-value">{entry.date}</span>
-          </div>
-          <div className="metadata-item">
-            <span className="metadata-label">Created:</span>
-            <span className="metadata-value">{formatDateTime(entry.createdAt)}</span>
-          </div>
-          <div className="metadata-item">
-            <span className="metadata-label">Last Modified:</span>
-            <span className="metadata-value">{formatDateTime(entry.lastModifiedAt)}</span>
-          </div>
-        </div>
-
-        {(moodOption || entry.tags.length > 0) && (
-          <div className="entry-details">
             {moodOption && (
-              <div className="detail-item">
-                <span className="detail-label">Mood:</span>
-                <div className="mood-display">
+              <>
+                <span className="meta-divider">•</span>
+                <div className="mood-badge" title={`Mood: ${moodOption.label}`}>
                   <span className="mood-emoji">{moodOption.emoji}</span>
                   <span className="mood-label">{moodOption.label}</span>
                 </div>
-              </div>
+              </>
             )}
+
             {entry.tags.length > 0 && (
-              <div className="detail-item">
-                <span className="detail-label">Tags:</span>
-                <div className="tags-display">
+              <>
+                <span className="meta-divider">•</span>
+                <div className="tags-row">
                   {entry.tags.map((tag, index) => (
-                    <span key={index} className="tag-chip">
-                      {tag}
+                    <span key={index} className="tag-pill">
+                      #{tag}
                     </span>
                   ))}
                 </div>
-              </div>
+              </>
             )}
           </div>
-        )}
+        </header>
 
-        <div className="entry-body">
+        <article className="article-body">
           <div
             className="content-display"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
@@ -138,17 +125,24 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
               <div className="viewer-media-list">
                 {entry.media.map(m => (
                   <div key={m.id} className="viewer-media-item">
-                    {m.type === 'image' ? (
-                      <img src={mediaUrls[m.id] || '#'} alt={m.name} />
+                    {m.type.startsWith('image/') || m.type === 'image' ? (
+                      <img src={mediaUrls[m.id] || '#'} alt={m.name} loading="lazy" />
+                    ) : m.type.startsWith('video/') || m.type === 'video' ? (
+                      <video src={mediaUrls[m.id] || '#'} controls preload="metadata" />
                     ) : (
-                      <video src={mediaUrls[m.id] || '#'} controls />
+                      <div className="viewer-file-placeholder">📄 {m.name}</div>
                     )}
                   </div>
                 ))}
               </div>
             </div>
           )}
-        </div>
+        </article>
+
+        <footer className="article-footer">
+          <div className="footer-timestamp">Created: {formatDateTime(entry.createdAt)}</div>
+          <div className="footer-timestamp">Last Modified: {formatDateTime(entry.lastModifiedAt)}</div>
+        </footer>
       </div>
     </div>
   );
