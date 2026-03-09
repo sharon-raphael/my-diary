@@ -121,7 +121,6 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
 
           {entry.media && entry.media.length > 0 && (
             <div className="entry-viewer-media">
-              <h3 className="media-section-title">Attachments</h3>
               <div className="viewer-media-list">
                 {entry.media.map(m => (
                   <div key={m.id} className="viewer-media-item">
