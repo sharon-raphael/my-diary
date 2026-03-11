@@ -62,15 +62,15 @@ describe('EntryViewer', () => {
 
   it('displays mood when present', () => {
     render(<EntryViewer entry={mockEntry} {...mockCallbacks} />);
-    expect(screen.getByText('Mood:')).toBeInTheDocument();
-    expect(screen.getByText('Happy')).toBeInTheDocument();
+    const moodBadge = document.querySelector('.mood-badge');
+    expect(moodBadge).toBeInTheDocument();
+    expect(moodBadge).toHaveAttribute('title', 'Mood: Happy');
   });
 
   it('displays tags when present', () => {
     render(<EntryViewer entry={mockEntry} {...mockCallbacks} />);
-    expect(screen.getByText('Tags:')).toBeInTheDocument();
-    expect(screen.getByText('test')).toBeInTheDocument();
-    expect(screen.getByText('journal')).toBeInTheDocument();
+    expect(screen.getByText('#test')).toBeInTheDocument();
+    expect(screen.getByText('#journal')).toBeInTheDocument();
   });
 
   it('does not display metadata section when mood and tags are empty', () => {
@@ -80,8 +80,8 @@ describe('EntryViewer', () => {
       tags: [],
     };
     render(<EntryViewer entry={entryWithoutMetadata} {...mockCallbacks} />);
-    expect(screen.queryByText('Mood:')).not.toBeInTheDocument();
-    expect(screen.queryByText('Tags:')).not.toBeInTheDocument();
+    expect(document.querySelector('.mood-badge')).not.toBeInTheDocument();
+    expect(document.querySelector('.tags-row')).not.toBeInTheDocument();
   });
 
   it('calls onEdit when edit button is clicked', () => {

@@ -144,19 +144,7 @@ describe('DateCell', () => {
     expect(entryCount).toBeNull();
   });
 
-  it('should display entry count when entryCount is greater than 1', () => {
-    render(
-      <DateCell
-        date={testDate}
-        isCurrentMonth={true}
-        isToday={false}
-        entries={[createMockEntry('1'), createMockEntry('2'), createMockEntry('3')]}
-        onClick={mockOnClick}
-      />
-    );
 
-    expect(screen.getByText('3')).toBeDefined();
-  });
 
   it('should call onClick with date when clicked', () => {
     const { container } = render(

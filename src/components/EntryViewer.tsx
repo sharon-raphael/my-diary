@@ -93,7 +93,6 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
                 <span className="meta-divider">•</span>
                 <div className="mood-badge" title={`Mood: ${moodOption.label}`}>
                   <span className="mood-emoji">{moodOption.emoji}</span>
-                  <span className="mood-label">{moodOption.label}</span>
                 </div>
               </>
             )}

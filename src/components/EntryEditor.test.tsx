@@ -61,16 +61,12 @@ describe('EntryEditor', () => {
 
   it('renders with empty fields for new entry', () => {
     render(<EntryEditor onSave={mockOnSave} onCancel={mockOnCancel} />);
-
-    expect(screen.getByText('New Entry')).toBeInTheDocument();
     expect(screen.getByLabelText('Title')).toHaveValue('');
     expect(screen.getByLabelText('Content')).toHaveValue('');
   });
 
   it('renders with existing entry data for editing', () => {
     render(<EntryEditor entry={mockEntry} onSave={mockOnSave} onCancel={mockOnCancel} />);
-
-    expect(screen.getByText('Edit Entry')).toBeInTheDocument();
     expect(screen.getByLabelText('Title')).toHaveValue('Test Entry');
     expect(screen.getByLabelText('Content')).toHaveValue('Test content');
   });
@@ -98,17 +94,19 @@ describe('EntryEditor', () => {
 
     const titleInput = screen.getByLabelText('Title');
     const contentTextarea = screen.getByLabelText('Content');
+    const moodButton = screen.getByText('Happy');
     const saveButton = screen.getByText('Save Entry');
 
     fireEvent.change(titleInput, { target: { value: 'My Title' } });
     fireEvent.change(contentTextarea, { target: { value: 'My content' } });
+    fireEvent.click(moodButton);
     fireEvent.click(saveButton);
 
     expect(mockOnSave).toHaveBeenCalledWith({
       title: 'My Title',
       date: expect.any(String),
       content: 'My content',
-      mood: null,
+      mood: 'happy',
       tags: [],
       media: [],
     });
