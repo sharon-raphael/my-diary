@@ -19,6 +19,13 @@
   margin: 0;
 }
 
+.reports-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
 .reports-filters {
   display: flex;
   gap: 1rem;
@@ -26,6 +33,31 @@
   padding: 0.75rem 1rem;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.reports-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.preset-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
 }
 
 .date-input-group {
@@ -195,6 +227,15 @@
 }
 
 @media (max-width: 600px) {
+  .reports-controls {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .reports-presets {
+    justify-content: center;
+  }
+
   .reports-filters {
     flex-direction: column;
     width: 100%;

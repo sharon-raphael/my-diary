@@ -23,6 +23,39 @@ export function ReportsView({ entries }: ReportsViewProps) {
   const [mediaStorageSize, setMediaStorageSize] = useState<number>(0);
   const [isLoadingMedia, setIsLoadingMedia] = useState(false);
 
+  const setPresetRange = (preset: 'last30' | 'thisMonth' | 'lastMonth' | 'thisYear' | 'lastYear') => {
+    const today = new Date();
+    let start = new Date();
+    let end = new Date();
+
+    if (preset === 'last30') {
+      start.setDate(today.getDate() - 30);
+      end = today;
+    } else if (preset === 'thisMonth') {
+      start = new Date(today.getFullYear(), today.getMonth(), 1);
+      end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    } else if (preset === 'lastMonth') {
+      start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      end = new Date(today.getFullYear(), today.getMonth(), 0);
+    } else if (preset === 'thisYear') {
+      start = new Date(today.getFullYear(), 0, 1);
+      end = new Date(today.getFullYear(), 11, 31);
+    } else if (preset === 'lastYear') {
+      start = new Date(today.getFullYear() - 1, 0, 1);
+      end = new Date(today.getFullYear() - 1, 11, 31);
+    }
+
+    const format = (d: Date) => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    setFromDate(format(start));
+    setToDate(format(end));
+  };
+
   const filteredEntries = useMemo(() => {
     return entries.filter(entry => {
       // Entry dates are YYYY-MM-DD strings
@@ -97,24 +130,33 @@ export function ReportsView({ entries }: ReportsViewProps) {
     <div className="reports-view">
       <header className="reports-header">
         <h2 className="reports-title">My Reports</h2>
-        <div className="reports-filters">
-          <div className="date-input-group">
-            <label htmlFor="from-date">From</label>
-            <input 
-              type="date" 
-              id="from-date" 
-              value={fromDate} 
-              onChange={e => setFromDate(e.target.value)} 
-            />
+        <div className="reports-controls">
+          <div className="reports-filters">
+            <div className="date-input-group">
+              <label htmlFor="from-date">From</label>
+              <input 
+                type="date" 
+                id="from-date" 
+                value={fromDate} 
+                onChange={e => setFromDate(e.target.value)} 
+              />
+            </div>
+            <div className="date-input-group">
+              <label htmlFor="to-date">To</label>
+              <input 
+                type="date" 
+                id="to-date" 
+                value={toDate} 
+                onChange={e => setToDate(e.target.value)} 
+              />
+            </div>
           </div>
-          <div className="date-input-group">
-            <label htmlFor="to-date">To</label>
-            <input 
-              type="date" 
-              id="to-date" 
-              value={toDate} 
-              onChange={e => setToDate(e.target.value)} 
-            />
+          <div className="reports-presets">
+            <button className="preset-btn" onClick={() => setPresetRange('last30')}>Last 30 Days</button>
+            <button className="preset-btn" onClick={() => setPresetRange('thisMonth')}>This Month</button>
+            <button className="preset-btn" onClick={() => setPresetRange('lastMonth')}>Last Month</button>
+            <button className="preset-btn" onClick={() => setPresetRange('thisYear')}>This Year</button>
+            <button className="preset-btn" onClick={() => setPresetRange('lastYear')}>Last Year</button>
           </div>
         </div>
       </header>
