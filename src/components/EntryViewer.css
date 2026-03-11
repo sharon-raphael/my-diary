@@ -273,6 +273,40 @@
   font-style: italic;
 }
 
+/* Entry Navigation */
+.entry-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eaeaea;
+}
+
+.nav-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #f8fafc;
+  color: #3b82f6;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.nav-btn:disabled {
+  color: #cbd5e1;
+  background: transparent;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 /* Responsive design for mobile */
 @media (max-width: 768px) {
   .entry-viewer {

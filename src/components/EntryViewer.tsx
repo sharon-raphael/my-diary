@@ -18,9 +18,13 @@ export interface EntryViewerProps {
   onBack: () => void;
   /** Callback when new entry is clicked */
   onCreateEntry?: () => void;
+  /** Callback for navigating to previous entry (older) */
+  onPrevious?: () => void;
+  /** Callback for navigating to next entry (newer) */
+  onNext?: () => void;
 }
 
-export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: EntryViewerProps) {
+export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry, onPrevious, onNext }: EntryViewerProps) {
   const handleDelete = () => {
     const confirmed = window.confirm('Are you sure you want to delete this entry? This action cannot be undone.');
     if (confirmed) {
@@ -141,6 +145,27 @@ export function EntryViewer({ entry, onEdit, onDelete, onBack, onCreateEntry }: 
           <div className="footer-timestamp">Created: {formatDateTime(entry.createdAt)}</div>
           <div className="footer-timestamp">Last Modified: {formatDateTime(entry.lastModifiedAt)}</div>
         </footer>
+
+        {(onPrevious || onNext) && (
+          <nav className="entry-navigation">
+            <button 
+              className="nav-btn prev-btn" 
+              onClick={onPrevious} 
+              disabled={!onPrevious}
+              aria-label="Previous Entry"
+            >
+              ← Previous Entry
+            </button>
+            <button 
+              className="nav-btn next-btn" 
+              onClick={onNext} 
+              disabled={!onNext}
+              aria-label="Next Entry"
+            >
+              Next Entry →
+            </button>
+          </nav>
+        )}
       </div>
     </div>
   );

@@ -171,6 +171,11 @@ function AppContent() {
           setSelectedEntryId(null);
           return null;
         }
+
+        const currentIndex = sortedEntries.findIndex(e => e.id === entryToView.id);
+        const prevEntry = currentIndex < sortedEntries.length - 1 ? sortedEntries[currentIndex + 1] : null; // older entry
+        const nextEntry = currentIndex > 0 ? sortedEntries[currentIndex - 1] : null; // newer entry
+
         return (
           <EntryViewer
             entry={entryToView}
@@ -181,6 +186,8 @@ function AppContent() {
               const entryDate = entryToView.date ? new Date(`${entryToView.date}T12:00:00`) : new Date();
               handleCreateEntry(entryDate);
             }}
+            onPrevious={prevEntry ? () => setSelectedEntryId(prevEntry.id) : undefined}
+            onNext={nextEntry ? () => setSelectedEntryId(nextEntry.id) : undefined}
           />
         );
       case 'calendar':
