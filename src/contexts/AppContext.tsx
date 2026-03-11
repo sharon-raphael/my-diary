@@ -5,7 +5,7 @@ import type { Entry, SortOrder } from '../types';
 /**
  * View types for the application routing
  */
-export type ViewType = 'list' | 'editor' | 'viewer' | 'calendar' | 'gallery';
+export type ViewType = 'list' | 'editor' | 'viewer' | 'calendar' | 'gallery' | 'reports';
 
 /**
  * Global application state interface

@@ -40,6 +40,14 @@ export function Navigation({
 
           <button
             className="btn btn-secondary"
+            onClick={() => onViewChange(currentView === 'reports' ? 'calendar' : 'reports')}
+            aria-label="Toggle reports"
+          >
+            {currentView === 'reports' ? '📅 Calendar' : '📊 Reports'}
+          </button>
+
+          <button
+            className="btn btn-secondary"
             onClick={onSettings}
             aria-label="Settings"
           >

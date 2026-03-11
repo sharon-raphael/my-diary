@@ -8,3 +8,4 @@ export { TagInput } from './TagInput';
 export { Navigation } from './Navigation';
 export { SettingsModal } from './SettingsModal';
 export { GalleryView } from './GalleryView';
+export { ReportsView } from './ReportsView';

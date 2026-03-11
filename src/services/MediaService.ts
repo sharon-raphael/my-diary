@@ -60,6 +60,19 @@ class MediaService {
             console.error('Failed to delete media blob:', error);
         }
     }
+
+    /**
+     * Get the size of a media blob by its ID in bytes.
+     */
+    async getMediaSize(id: string): Promise<number> {
+        try {
+            const blob = await this.mediaStore.getItem<Blob>(id);
+            return blob?.size || 0;
+        } catch (error) {
+            console.error('Failed to load media blob for size:', error);
+            return 0;
+        }
+    }
 }
 
 export const mediaService = new MediaService();

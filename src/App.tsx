@@ -3,7 +3,7 @@ import { AppProvider, useAppContext } from './contexts/AppContext';
 import { useEntries } from './hooks/useEntries';
 import { useSearch } from './hooks/useSearch';
 import { useSort } from './hooks/useSort';
-import { EntryList, EntryEditor, EntryViewer, Navigation, SettingsModal, GalleryView } from './components';
+import { EntryList, EntryEditor, EntryViewer, Navigation, SettingsModal, GalleryView, ReportsView } from './components';
 import { CalendarView } from './components/calendar';
 import { getCalendarDate } from './utils/dateFormatter';
 import type { Entry } from './types';
@@ -204,6 +204,10 @@ function AppContent() {
       case 'gallery':
         return (
           <GalleryView entries={entries} />
+        );
+      case 'reports':
+        return (
+          <ReportsView entries={entries} />
         );
       default:
         return (
