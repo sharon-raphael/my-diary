@@ -1,0 +1,1 @@
+Always ask for explicit permission before executing `git commit`, `git push` or similar commands to commit or push changes. Do not commit or push changes automatically unless the user explicitly tells you to do so.
