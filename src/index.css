@@ -63,3 +63,23 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Global Dark Mode Implementation via Filter */
+body.dark-mode {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95);
+  background-color: #111;
+}
+
+/* Un-invert images, videos, and media previews so they render correctly */
+body.dark-mode img,
+body.dark-mode video,
+body.dark-mode .media-preview,
+body.dark-mode .gallery-item-content,
+body.dark-mode iframe {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Background inversion reset for full bleed visual elements */
+body.dark-mode .btn-primary {
+  filter: invert(1) hue-rotate(180deg);
+}

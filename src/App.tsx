@@ -14,7 +14,7 @@ import './App.css';
  */
 function AppContent() {
   const { currentView, selectedEntryId, setCurrentView, setSelectedEntryId } = useAppContext();
-  const { entries, loading, error, createEntry, updateEntry, deleteEntry, deleteAllEntries, getEntry, exportEntries, importEntries } = useEntries();
+  const { entries, loading, error, createEntry, updateEntry, deleteEntry, deleteAllEntries, getEntry, exportEntries, importEntries, generateExportZip } = useEntries();
   const { filteredEntries, query, setQuery } = useSearch(entries);
   const { sortedEntries, sortOrder, setSortOrder } = useSort(filteredEntries);
 
@@ -172,9 +172,10 @@ function AppContent() {
           return null;
         }
 
-        const currentIndex = sortedEntries.findIndex(e => e.id === entryToView.id);
-        const prevEntry = currentIndex < sortedEntries.length - 1 ? sortedEntries[currentIndex + 1] : null; // older entry
-        const nextEntry = currentIndex > 0 ? sortedEntries[currentIndex - 1] : null; // newer entry
+        const chronoEntries = [...filteredEntries].sort((a, b) => b.createdAt - a.createdAt);
+        const chronoIndex = chronoEntries.findIndex(e => e.id === entryToView.id);
+        const prevEntry = chronoIndex < chronoEntries.length - 1 ? chronoEntries[chronoIndex + 1] : null; // chronologically older entry
+        const nextEntry = chronoIndex > 0 ? chronoEntries[chronoIndex - 1] : null; // chronologically newer entry
 
         return (
           <EntryViewer
@@ -245,6 +246,7 @@ function AppContent() {
           onExport={exportEntries}
           onImport={importEntries}
           onDeleteAll={handleDeleteAllEntries}
+          generateExportZip={generateExportZip}
         />
       )}
     </div>

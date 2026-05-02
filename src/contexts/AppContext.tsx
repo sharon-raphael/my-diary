@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { Entry, SortOrder } from '../types';
 
@@ -18,6 +18,7 @@ export interface AppState {
   sortOrder: SortOrder;
   calendarMonth: number | null;
   calendarYear: number | null;
+  isDarkMode: boolean;
 }
 
 /**
@@ -31,6 +32,7 @@ interface AppContextValue extends AppState {
   setSortOrder: (order: SortOrder) => void;
   setCalendarMonth: (month: number | null) => void;
   setCalendarYear: (year: number | null) => void;
+  setIsDarkMode: (isDark: boolean) => void;
 }
 
 /**
@@ -56,6 +58,19 @@ export function AppProvider({ children }: AppProviderProps) {
   const [sortOrder, setSortOrder] = useState<SortOrder>('createdAt-desc');
   const [calendarMonth, setCalendarMonth] = useState<number | null>(null);
   const [calendarYear, setCalendarYear] = useState<number | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const stored = localStorage.getItem('diary-dark-mode');
+    return stored === 'true' || (stored === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  });
+
+  useEffect(() => {
+    localStorage.setItem('diary-dark-mode', String(isDarkMode));
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [isDarkMode]);
 
   const value: AppContextValue = {
     entries,
@@ -65,6 +80,7 @@ export function AppProvider({ children }: AppProviderProps) {
     sortOrder,
     calendarMonth,
     calendarYear,
+    isDarkMode,
     setEntries,
     setCurrentView,
     setSelectedEntryId,
@@ -72,6 +88,7 @@ export function AppProvider({ children }: AppProviderProps) {
     setSortOrder,
     setCalendarMonth,
     setCalendarYear,
+    setIsDarkMode,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

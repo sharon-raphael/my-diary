@@ -23,7 +23,8 @@ vi.mock('uuid', () => ({
 describe('useEntries', () => {
   const mockEntry: Entry = {
     id: 'entry-1',
-    title: 'Test Entry',
+    date: '2023-01-01',
+        title: 'Test Entry',
     content: 'Test content',
     createdAt: 1000000,
     lastModifiedAt: 1000000,
@@ -87,6 +88,7 @@ describe('useEntries', () => {
       });
 
       const newEntryData = {
+        date: '2023-01-01',
         title: 'New Entry',
         content: 'New content',
         mood: null,
@@ -120,6 +122,7 @@ describe('useEntries', () => {
       });
 
       const newEntryData = {
+        date: '2023-01-01',
         title: 'New Entry',
         content: 'New content',
         mood: null,
@@ -148,6 +151,7 @@ describe('useEntries', () => {
       });
 
       const newEntryData = {
+        date: '2023-01-01',
         title: 'New Entry',
         content: 'New content',
         mood: null,
@@ -174,6 +178,7 @@ describe('useEntries', () => {
       });
 
       const updates = {
+        date: '2023-01-01',
         title: 'Updated Title',
         content: 'Updated content'
       };
@@ -204,7 +209,8 @@ describe('useEntries', () => {
       const originalCreatedAt = mockEntry.createdAt;
 
       await act(async () => {
-        await result.current.updateEntry('entry-1', { title: 'Updated' });
+        await result.current.updateEntry('entry-1', { date: '2023-01-01',
+        title: 'Updated' });
       });
 
       const updatedEntry = result.current.entries.find(e => e.id === 'entry-1');
@@ -223,7 +229,8 @@ describe('useEntries', () => {
       const originalModifiedAt = mockEntry.lastModifiedAt;
 
       await act(async () => {
-        await result.current.updateEntry('entry-1', { title: 'Updated' });
+        await result.current.updateEntry('entry-1', { date: '2023-01-01',
+        title: 'Updated' });
       });
 
       const updatedEntry = result.current.entries.find(e => e.id === 'entry-1');
@@ -241,7 +248,8 @@ describe('useEntries', () => {
 
       await expect(async () => {
         await act(async () => {
-          await result.current.updateEntry('non-existent', { title: 'Updated' });
+          await result.current.updateEntry('non-existent', { date: '2023-01-01',
+        title: 'Updated' });
         });
       }).rejects.toThrow('Entry with id non-existent not found');
     });

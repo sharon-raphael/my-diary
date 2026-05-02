@@ -13,6 +13,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "draft-js-import-html": "^1.4.1",

@@ -29,6 +29,8 @@ export interface UseEntriesReturn {
   exportEntries: () => Promise<void>;
   /** Imports entries from a file */
   importEntries: (file: File) => Promise<void>;
+  /** Generates an export zip file and returns it without downloading */
+  generateExportZip: () => Promise<{ blob: Blob, filename: string }>;
 }
 
 /**
@@ -185,36 +187,45 @@ export function useEntries(): UseEntriesReturn {
   }, [entries]);
 
   /**
-   * Exports all entries as a ZIP archive if media exists, or JSON.
+   * Generates a ZIP archive containing all entries and media.
    */
-  const exportEntries = useCallback(async (): Promise<void> => {
-    try {
-      const zip = new JSZip();
-      const jsonData = storageService.exportData();
-      zip.file('journal-data.json', jsonData);
+  const generateExportZip = useCallback(async (): Promise<{ blob: Blob, filename: string }> => {
+    const zip = new JSZip();
+    const jsonData = storageService.exportData();
+    zip.file('journal-data.json', jsonData);
 
-      const container = JSON.parse(jsonData);
-      const entriesToExport = container.entries || [];
-      const mediaFolder = zip.folder('media');
+    const container = JSON.parse(jsonData);
+    const entriesToExport = container.entries || [];
+    const mediaFolder = zip.folder('media');
 
-      if (mediaFolder) {
-        for (const entry of entriesToExport) {
-          if (entry.media && entry.media.length > 0) {
-            for (const media of entry.media) {
-              const blob = await mediaService.loadMedia(media.id);
-              if (blob) {
-                mediaFolder.file(media.id, blob);
-              }
+    if (mediaFolder) {
+      for (const entry of entriesToExport) {
+        if (entry.media && entry.media.length > 0) {
+          for (const media of entry.media) {
+            const blob = await mediaService.loadMedia(media.id);
+            if (blob) {
+              mediaFolder.file(media.id, blob);
             }
           }
         }
       }
+    }
 
-      const content = await zip.generateAsync({ type: 'blob' });
+    const content = await zip.generateAsync({ type: 'blob' });
+    const date = new Date().toISOString().split('T')[0];
+    const filename = `journal-export-${date}.zip`;
+    
+    return { blob: content, filename };
+  }, []);
+
+  /**
+   * Exports all entries as a ZIP archive if media exists, or JSON.
+   */
+  const exportEntries = useCallback(async (): Promise<void> => {
+    try {
+      const { blob: content, filename } = await generateExportZip();
+
       const url = URL.createObjectURL(content);
-
-      const date = new Date().toISOString().split('T')[0];
-      const filename = `journal-export-${date}.zip`;
 
       const link = document.createElement('a');
       link.href = url;
@@ -293,6 +304,7 @@ export function useEntries(): UseEntriesReturn {
     deleteAllEntries,
     getEntry,
     exportEntries,
-    importEntries
+    importEntries,
+    generateExportZip
   };
 }

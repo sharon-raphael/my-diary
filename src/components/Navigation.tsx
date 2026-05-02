@@ -23,27 +23,35 @@ export function Navigation({
 
         <div className="nav-actions">
           <button
-            className="btn btn-secondary"
-            onClick={() => onViewChange(currentView === 'gallery' ? 'calendar' : 'gallery')}
-            aria-label="Toggle gallery"
+            className={`btn ${currentView === 'calendar' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => onViewChange('calendar')}
+            aria-label="Calendar view"
           >
-            {currentView === 'gallery' ? '📅 Calendar' : '🖼️ Gallery'}
+            📅 Calendar
           </button>
 
           <button
-            className="btn btn-secondary"
-            onClick={() => onViewChange(currentView === 'list' ? 'calendar' : 'list')}
-            aria-label="Toggle view"
+            className={`btn ${currentView === 'gallery' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => onViewChange('gallery')}
+            aria-label="Gallery view"
           >
-            {currentView === 'list' ? '📅 Calendar' : '📋 List'}
+            🖼️ Gallery
           </button>
 
           <button
-            className="btn btn-secondary"
-            onClick={() => onViewChange(currentView === 'reports' ? 'calendar' : 'reports')}
-            aria-label="Toggle reports"
+            className={`btn ${currentView === 'list' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => onViewChange('list')}
+            aria-label="List view"
           >
-            {currentView === 'reports' ? '📅 Calendar' : '📊 Reports'}
+            📋 List
+          </button>
+
+          <button
+            className={`btn ${currentView === 'reports' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => onViewChange('reports')}
+            aria-label="Reports view"
+          >
+            📊 Reports
           </button>
 
           <button

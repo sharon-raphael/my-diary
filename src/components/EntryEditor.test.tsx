@@ -2,7 +2,6 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { EntryEditor } from './EntryEditor';
 import type { Entry } from '../types';
-import { RichTextService } from '../services/RichTextService';
 
 vi.mock('draft-js', () => ({
   EditorState: {

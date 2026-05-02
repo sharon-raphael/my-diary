@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { Entry } from '../types';
 import { mediaService } from '../services/MediaService';
 

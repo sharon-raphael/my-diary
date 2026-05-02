@@ -16,39 +16,35 @@ describe('Navigation', () => {
     expect(screen.getByRole('button', { name: /settings/i })).toBeInTheDocument();
   });
 
-  it('shows toggle for gallery', () => {
+  it('shows static navigation buttons', () => {
+    render(<Navigation {...defaultProps} />);
+    expect(screen.getByRole('button', { name: /calendar view/i })).toHaveTextContent('📅 Calendar');
+    expect(screen.getByRole('button', { name: /gallery view/i })).toHaveTextContent('🖼️ Gallery');
+    expect(screen.getByRole('button', { name: /list view/i })).toHaveTextContent('📋 List');
+    expect(screen.getByRole('button', { name: /reports view/i })).toHaveTextContent('📊 Reports');
+  });
+
+  it('highlights the current view button', () => {
     const { rerender } = render(<Navigation {...defaultProps} currentView="calendar" />);
-    let toggleBtn = screen.getByRole('button', { name: /toggle gallery/i });
-    expect(toggleBtn).toHaveTextContent('🖼️ Gallery');
+    expect(screen.getByRole('button', { name: /calendar view/i })).toHaveClass('btn-primary');
+    expect(screen.getByRole('button', { name: /gallery view/i })).toHaveClass('btn-secondary');
 
     rerender(<Navigation {...defaultProps} currentView="gallery" />);
-    toggleBtn = screen.getByRole('button', { name: /toggle gallery/i });
-    expect(toggleBtn).toHaveTextContent('📅 Calendar');
+    expect(screen.getByRole('button', { name: /calendar view/i })).toHaveClass('btn-secondary');
+    expect(screen.getByRole('button', { name: /gallery view/i })).toHaveClass('btn-primary');
   });
 
-  it('shows toggle for list when in calendar view', () => {
-    const { rerender } = render(<Navigation {...defaultProps} currentView="calendar" />);
-    let toggleBtn = screen.getByRole('button', { name: /toggle view/i });
-    expect(toggleBtn).toHaveTextContent('📋 List');
-
-    rerender(<Navigation {...defaultProps} currentView="list" />);
-    toggleBtn = screen.getByRole('button', { name: /toggle view/i });
-    expect(toggleBtn).toHaveTextContent('📅 Calendar');
-  });
-
-  it('calls onViewChange correctly when toggling gallery', () => {
+  it('calls onViewChange correctly when clicking buttons', () => {
     const onViewChange = vi.fn();
     render(<Navigation {...defaultProps} currentView="calendar" onViewChange={onViewChange} />);
-    const toggleBtn = screen.getByRole('button', { name: /toggle gallery/i });
-    fireEvent.click(toggleBtn);
+    
+    fireEvent.click(screen.getByRole('button', { name: /gallery view/i }));
     expect(onViewChange).toHaveBeenCalledWith('gallery');
-  });
 
-  it('calls onViewChange correctly when toggling list view', () => {
-    const onViewChange = vi.fn();
-    render(<Navigation {...defaultProps} currentView="calendar" onViewChange={onViewChange} />);
-    const toggleBtn = screen.getByRole('button', { name: /toggle view/i });
-    fireEvent.click(toggleBtn);
+    fireEvent.click(screen.getByRole('button', { name: /list view/i }));
     expect(onViewChange).toHaveBeenCalledWith('list');
+
+    fireEvent.click(screen.getByRole('button', { name: /reports view/i }));
+    expect(onViewChange).toHaveBeenCalledWith('reports');
   });
 });

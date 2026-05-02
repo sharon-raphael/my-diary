@@ -14,6 +14,7 @@ describe('ValidationService', () => {
     it('should validate a valid entry', () => {
       const entry: Entry = {
         id: 'test-id-1',
+        date: '2023-01-01',
         title: 'Test Entry',
         content: 'This is test content',
         createdAt: Date.now(),
@@ -29,6 +30,7 @@ describe('ValidationService', () => {
     it('should validate an entry with null mood', () => {
       const entry: Entry = {
         id: 'test-id-1',
+        date: '2023-01-01',
         title: 'Test Entry',
         content: 'Content',
         createdAt: Date.now(),
@@ -44,6 +46,7 @@ describe('ValidationService', () => {
     it('should validate an entry with empty tags', () => {
       const entry: Entry = {
         id: 'test-id-1',
+        date: '2023-01-01',
         title: 'Test Entry',
         content: 'Content',
         createdAt: Date.now(),
@@ -58,6 +61,7 @@ describe('ValidationService', () => {
 
     it('should reject entry with missing id', () => {
       const entry = {
+        date: '2023-01-01',
         title: 'Test Entry',
         content: 'Content',
         createdAt: Date.now(),
@@ -73,6 +77,7 @@ describe('ValidationService', () => {
     it('should reject entry with empty id', () => {
       const entry = {
         id: '',
+        date: '2023-01-01',
         title: 'Test Entry',
         content: 'Content',
         createdAt: Date.now(),
@@ -88,6 +93,7 @@ describe('ValidationService', () => {
     it('should reject entry with invalid title type', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 123,
         content: 'Content',
         createdAt: Date.now(),
@@ -103,6 +109,7 @@ describe('ValidationService', () => {
     it('should reject entry with invalid content type', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: null,
         createdAt: Date.now(),
@@ -118,6 +125,7 @@ describe('ValidationService', () => {
     it('should reject entry with invalid createdAt', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: 'not-a-number',
@@ -133,6 +141,7 @@ describe('ValidationService', () => {
     it('should reject entry with negative timestamp', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: -1,
@@ -148,6 +157,7 @@ describe('ValidationService', () => {
     it('should reject entry with invalid mood', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: Date.now(),
@@ -163,6 +173,7 @@ describe('ValidationService', () => {
     it('should reject entry with non-array tags', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: Date.now(),
@@ -178,6 +189,7 @@ describe('ValidationService', () => {
     it('should reject entry with empty string in tags', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: Date.now(),
@@ -193,6 +205,7 @@ describe('ValidationService', () => {
     it('should reject entry with invalid version', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'Content',
         createdAt: Date.now(),
@@ -208,6 +221,7 @@ describe('ValidationService', () => {
     it('should reject entry with content exceeding max length', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'a'.repeat(100001),
         createdAt: Date.now(),
@@ -223,6 +237,7 @@ describe('ValidationService', () => {
     it('should accept entry with content at max length', () => {
       const entry: Entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'Title',
         content: 'a'.repeat(100000),
         createdAt: Date.now(),
@@ -238,6 +253,7 @@ describe('ValidationService', () => {
     it('should reject entry with title exceeding max length', () => {
       const entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'a'.repeat(201),
         content: 'Content',
         createdAt: Date.now(),
@@ -253,6 +269,7 @@ describe('ValidationService', () => {
     it('should accept entry with title at max length', () => {
       const entry: Entry = {
         id: 'test-id',
+        date: '2023-01-01',
         title: 'a'.repeat(200),
         content: 'Content',
         createdAt: Date.now(),
@@ -285,7 +302,8 @@ describe('ValidationService', () => {
       const entries: Entry[] = [
         {
           id: 'test-id-1',
-          title: 'Entry 1',
+          date: '2023-01-01',
+        title: 'Entry 1',
           content: 'Content 1',
           createdAt: Date.now(),
           lastModifiedAt: Date.now(),
@@ -295,7 +313,8 @@ describe('ValidationService', () => {
         },
         {
           id: 'test-id-2',
-          title: 'Entry 2',
+          date: '2023-01-01',
+        title: 'Entry 2',
           content: 'Content 2',
           createdAt: Date.now(),
           lastModifiedAt: Date.now(),
@@ -316,7 +335,8 @@ describe('ValidationService', () => {
       const entries = [
         {
           id: 'test-id-1',
-          title: 'Entry 1',
+          date: '2023-01-01',
+        title: 'Entry 1',
           content: 'Content 1',
           createdAt: Date.now(),
           lastModifiedAt: Date.now(),
@@ -326,7 +346,8 @@ describe('ValidationService', () => {
         },
         {
           id: 'test-id-2',
-          title: 'Entry 2',
+          date: '2023-01-01',
+        title: 'Entry 2',
           // missing content
           createdAt: Date.now(),
           lastModifiedAt: Date.now(),
@@ -421,7 +442,8 @@ describe('ValidationService', () => {
         entries: [
           {
             id: 'test-id-1',
-            title: 'Entry 1',
+            date: '2023-01-01',
+        title: 'Entry 1',
             content: 'Content 1',
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
@@ -447,7 +469,8 @@ describe('ValidationService', () => {
         entries: [
           {
             id: 'test-id-1',
-            title: 'Entry 1',
+            date: '2023-01-01',
+        title: 'Entry 1',
             content: '<p>Safe</p><script>alert("xss")</script>',
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
@@ -470,7 +493,8 @@ describe('ValidationService', () => {
         entries: [
           {
             id: 'test-id-1',
-            title: 'Valid Entry',
+            date: '2023-01-01',
+        title: 'Valid Entry',
             content: 'Content',
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
@@ -480,7 +504,8 @@ describe('ValidationService', () => {
           },
           {
             id: 'test-id-2',
-            title: 'Invalid Entry',
+            date: '2023-01-01',
+        title: 'Invalid Entry',
             // missing content
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
@@ -490,7 +515,8 @@ describe('ValidationService', () => {
           },
           {
             id: 'test-id-3',
-            title: 'Another Valid',
+            date: '2023-01-01',
+        title: 'Another Valid',
             content: 'More content',
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
